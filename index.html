@@ -1,12 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>24H JUAZEIRO - Portal Cariri Ao Vivo | Noticias 24h + Videos + 18+</title>
+<title>24H JUAZEIRO - Portal Cariri Ao Vivo | Noticias 24h + Videos</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3362553991120944" crossorigin="anonymous"></script>
 
 <!-- FIREBASE PARA CHAT GLOBAL + LIVE GRAVADA -->
@@ -14,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 <script>
-// CONFIG FIREBASE - GRÁTIS - TROQUE PELO SEU PROJETO (firebase.google.com)
+// CONFIG FIREBASE - CRIE SEU PROJETO EM firebase.google.com
 const firebaseConfig = {
   apiKey: "AIzaSyDemoCariri24hJuazeiro",
   authDomain: "portal-24h-juazeiro.firebaseapp.com",
@@ -24,113 +22,45 @@ const firebaseConfig = {
   messagingSenderId: "123456789",
   appId: "1:123456789:web:cariri24h"
 };
-// Inicializa Firebase - se falhar, usa modo local
 let firebaseDB = null;
 try {
   firebase.initializeApp(firebaseConfig);
   firebaseDB = firebase.database();
   console.log("Firebase conectado - chat global ativo");
 } catch(e){
-  console.log("Firebase não configurado - usando chat local (abas)");
+  console.log("Firebase não configurado - usando chat local");
 }
 </script>
-
 <style>.pulse{animation:pulse 1.5s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}.blur{filter:blur(10px)}</style>
-
-<!-- SISTEMA DE TRADUÇÃO MULTI-IDIOMA -->
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script>
-// Dicionário de tradução manual para partes principais
 const translations = {
-  pt: {
-    news: "Notícias 24h - Atualiza sozinha",
-    videos: "TV 24H - VÍDEOS AO VIVO CARIRI",
-    radio: "RÁDIO 24H JUAZEIRO AO VIVO",
-    chatLive: "CHAT AO VIVO + LIVE WEBCAM",
-    classNormal: "CLASSIFICADOS NORMAIS CARIRI",
-    classAdult: "CLASSIFICADOS 18+ CARIRI",
-    anunciar: "+ ANUNCIAR",
-    online: "online agora",
-    contato: "Contato"
-  },
-  en: {
-    news: "24h News - Auto Update",
-    videos: "TV 24H - LIVE VIDEOS CARIRI",
-    radio: "24H JUAZEIRO RADIO LIVE",
-    chatLive: "LIVE CHAT + WEBCAM LIVE",
-    classNormal: "NORMAL CLASSIFIEDS CARIRI",
-    classAdult: "ADULT CLASSIFIEDS 18+ CARIRI",
-    anunciar: "+ POST AD",
-    online: "online now",
-    contato: "Contact"
-  },
-  es: {
-    news: "Noticias 24h - Actualización automática",
-    videos: "TV 24H - VIDEOS EN VIVO CARIRI",
-    radio: "RADIO 24H JUAZEIRO EN VIVO",
-    chatLive: "CHAT EN VIVO + WEBCAM EN VIVO",
-    classNormal: "CLASIFICADOS NORMALES CARIRI",
-    classAdult: "CLASIFICADOS 18+ CARIRI",
-    anunciar: "+ ANUNCIAR",
-    online: "en línea ahora",
-    contato: "Contacto"
-  },
-  fr: {
-    news: "Actualités 24h - Mise à jour auto",
-    videos: "TV 24H - VIDÉOS EN DIRECT CARIRI",
-    radio: "RADIO 24H JUAZEIRO EN DIRECT",
-    chatLive: "CHAT EN DIRECT + WEBCAM LIVE",
-    classNormal: "PETITES ANNONCES NORMALES",
-    classAdult: "PETITES ANNONCES 18+",
-    anunciar: "+ PUBLIER",
-    online: "en ligne maintenant",
-    contato: "Contact"
-  }
+  pt: { news: "Notícias 24h - Atualiza sozinha", videos: "TV 24H - VÍDEOS AO VIVO CARIRI", radio: "RÁDIO 24H JUAZEIRO AO VIVO", chatLive: "CHAT AO VIVO + LIVE WEBCAM", classNormal: "CLASSIFICADOS NORMAIS CARIRI", classAdult: "CLASSIFICADOS 18+ CARIRI", anunciar: "+ ANUNCIAR", online: "online agora", contato: "Contato" },
+  en: { news: "24h News - Auto Update", videos: "TV 24H - LIVE VIDEOS CARIRI", radio: "24H JUAZEIRO RADIO LIVE", chatLive: "LIVE CHAT + WEBCAM LIVE", classNormal: "NORMAL CLASSIFIEDS CARIRI", classAdult: "ADULT CLASSIFIEDS 18+ CARIRI", anunciar: "+ POST AD", online: "online now", contato: "Contact" },
+  es: { news: "Noticias 24h - Actualización automática", videos: "TV 24H - VIDEOS EN VIVO CARIRI", radio: "RADIO 24H JUAZEIRO EN VIVO", chatLive: "CHAT EN VIVO + WEBCAM EN VIVO", classNormal: "CLASIFICADOS NORMALES CARIRI", classAdult: "CLASIFICADOS 18+ CARIRI", anunciar: "+ ANUNCIAR", online: "en línea ahora", contato: "Contacto" },
+  fr: { news: "Actualités 24h - Mise à jour auto", videos: "TV 24H - VIDÉOS EN DIRECT CARIRI", radio: "RADIO 24H JUAZEIRO EN DIRECT", chatLive: "CHAT EN DIRECT + WEBCAM LIVE", classNormal: "PETITES ANNONCES NORMALES", classAdult: "PETITES ANNONCES 18+", anunciar: "+ PUBLIER", online: "en ligne maintenant", contato: "Contact" }
 };
-
 function changeLang(lang){
   localStorage.setItem('site_lang', lang);
   document.documentElement.lang = lang;
-  // Atualiza textos manuais
   const t = translations[lang] || translations.pt;
   document.querySelectorAll('[data-translate]').forEach(el=>{
     const key = el.getAttribute('data-translate');
     if(t[key]) el.innerText = t[key];
   });
-  // Google Translate automático
   const googleSelect = document.querySelector('.goog-te-combo');
   if(googleSelect){
     googleSelect.value = lang;
     googleSelect.dispatchEvent(new Event('change'));
-  } else {
-    // Fallback: usa Google Translate via URL
-    if(lang !== 'pt'){
-      // Traduz página via Google Translate API simulada
-      document.body.style.opacity = '0.5';
-      setTimeout(()=>{ document.body.style.opacity = '1'; alert('Idioma alterado para ' + lang.toUpperCase() + '! Se quiser tradução automática completa de todas as notícias, ative o Google Tradutor no canto.'); }, 300);
-    }
   }
-  // Atualiza bandeira ativa
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('ring-2','ring-yellow-400'));
   const activeBtn = document.getElementById('lang-'+lang);
   if(activeBtn) activeBtn.classList.add('ring-2','ring-yellow-400');
 }
-
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'pt',
-    includedLanguages: 'pt,en,es,fr,de,it,ja,zh-CN,ar,ru',
-    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-    autoDisplay: false
-  }, 'google_translate_element');
-  // Esconde banner do Google
-  setTimeout(()=>{
-    const lang = localStorage.getItem('site_lang') || 'pt';
-    changeLang(lang);
-  }, 1000);
+  new google.translate.TranslateElement({ pageLanguage: 'pt', includedLanguages: 'pt,en,es,fr,de,it,ja,zh-CN,ar,ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+  setTimeout(()=>{ const lang = localStorage.getItem('site_lang') || 'pt'; changeLang(lang); }, 1000);
 }
-
-// Detecta idioma do navegador
 window.addEventListener('DOMContentLoaded', ()=>{
   const saved = localStorage.getItem('site_lang');
   if(saved) changeLang(saved);
@@ -140,7 +70,6 @@ window.addEventListener('DOMContentLoaded', ()=>{
   }
 });
 </script>
-
 <style>
 .goog-te-banner-frame { display:none !important; }
 .goog-te-gadget { font-size:0 !important; }
@@ -149,17 +78,16 @@ window.addEventListener('DOMContentLoaded', ()=>{
 .goog-te-gadget-icon { display:none !important; }
 body { top:0 !important; }
 </style>
-
 </head>
 <body class="bg-zinc-100">
 
-<div id="translateBanner" class="bg-blue-600 text-white text-center py-2 text-xs hidden">
-  🌐 Notícias traduzidas automaticamente para <span id="translateLangName">EN</span> - Original em português disponível
-  <button onclick="changeLang('pt')" class="ml-2 bg-white text-blue-600 px-2 py-0 rounded-full font-bold">Ver em PT</button>
-</div>
+<div class="bg-black text-white text-center py-2 text-[11px]">PUBLICIDADE ca-app-pub-3362553991120944/1449523748
+<div class="mx-auto max-w-[728px] h-[90px] bg-white text-black flex items-center justify-center mt-1 rounded font-black overflow-hidden">
+<!-- BANNER TOPO 728x90 - TROQUE PELO SEU CÓDIGO ADSENSE -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-3362553991120944" data-ad-slot="1449523748"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div></div>
 
-<div class="bg-black text-white text-center py-2 text-[11px]">PUBLICIDADE ca-app-pub-3362553991120944/1449523748 + PROFITABLE CPM NETWORK
-<div class="mx-auto max-w-[728px] h-[90px] bg-white text-black flex items-center justify-center mt-1 rounded font-black"><a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank">🔥 CLIQUE AQUI E GANHE EM DOLAR - MELHOR REDE 2026 🔥</a></div></div>
 <header class="bg-white border-b sticky top-0 z-30"><div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center"><div class="flex gap-2 items-center"><div class="bg-red-600 text-white font-black px-3 py-1">24H</div><b>JUAZEIRO</b><span class="bg-red-600 text-white text-xs px-2 py-1 rounded pulse">AO VIVO</span></div><div class="flex gap-2">
 <div class="flex items-center gap-1 bg-zinc-100 rounded-full p-1 mr-2">
   <button onclick="changeLang('pt')" id="lang-pt" class="lang-btn w-7 h-7 rounded-full overflow-hidden text-[14px] ring-2 ring-yellow-400" title="Português">🇧🇷</button>
@@ -178,70 +106,28 @@ body { top:0 !important; }
       <div><div class="font-black">RÁDIO 24H JUAZEIRO AO VIVO</div><div class="text-xs opacity-80" id="radioStatus">● Tocando: Forró das Antigas - Ao vivo do Cariri</div></div>
     </div>
     <div class="flex items-center gap-2">
-      <audio id="radioPlayer" controls class="h-8 w-64"><source src="https://streaming01.painelbr.com:10898/stream" type="audio/mpeg">Seu navegador não suporta áudio.</audio>
-      <button onclick="document.getElementById('radioPlayer').play()" class="bg-white text-red-600 px-4 py-1 rounded-full font-bold text-sm">▶️ TOCAR</button>
+      <audio id="radioPlayer" controls class="h-8 w-64"><source src="https://streaming01.painelbr.com:10898/stream" type="audio/mpeg"></audio>
+      <button onclick="document.getElementById('radioPlayer').play()" class="bg-white text-red-600 px-4 py-1 rounded-full font-bold text-sm">▶ TOCAR</button>
     </div>
   </div>
 </section>
 
-
-<!-- CLASSIFICADOS NORMAIS - OLX CARIRI -->
+<!-- CLASSIFICADOS NORMAIS -->
 <section id="classificadosNormais" class="max-w-7xl mx-auto px-4 py-6 bg-white mt-6 rounded-xl border-2 border-green-600">
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
     <div>
-      <h2 class="font-black text-2xl">📦 CLASSIFICADOS NORMAIS CARIRI - OLX DO POVO</h2>
-      <p class="text-sm text-zinc-600">Carros, motos, casas, empregos, serviços. Anúncio grátis 7 dias, destaque R$15 via Pix.</p>
+      <h2 class="font-black text-2xl">📦 CLASSIFICADOS NORMAIS CARIRI</h2>
+      <p class="text-sm text-zinc-600">Carros, motos, casas, empregos, serviços. Anúncio grátis 7 dias.</p>
     </div>
     <div class="flex gap-2 flex-wrap">
       <button class="bg-green-600 text-white px-3 py-1 rounded text-xs">🚗 Carros</button>
       <button class="bg-zinc-100 px-3 py-1 rounded text-xs">🏠 Casas</button>
       <button class="bg-zinc-100 px-3 py-1 rounded text-xs">💼 Empregos</button>
-      <button class="bg-zinc-100 px-3 py-1 rounded text-xs">🔧 Serviços</button>
       <button onclick="openPixModalNormal()" class="bg-black text-white px-4 py-1 rounded text-xs font-bold">+ ANUNCIAR GRÁTIS</button>
     </div>
   </div>
-
-  <div class="bg-green-50 border border-green-300 p-3 rounded text-xs mb-4 text-center">
-    ✅ Classificados 100% família, sem conteúdo adulto. Contato apenas por Gmail: <b>nandonascimento122@gmail.com</b> - Mais seguro! 
-    <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="font-bold underline">Patrocinado por profitableRateCPMNetwork</a>
-  </div>
-
   <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4" id="classificadosGrid"></div>
-
-  <div class="mt-6 p-4 bg-green-600 text-white rounded text-center">
-    <div class="font-black">📦 GANHE COM CLASSIFICADOS NORMAIS</div>
-    <div class="text-sm mt-1">Destaque R$15/semana. 50 anunciantes = R$750/semana = R$3000/mês + AdSense ca-app-pub-3362553991120944</div>
-    <a href="mailto:nandonascimento122@gmail.com?subject=Quero anunciar nos Classificados" class="inline-block mt-3 bg-white text-green-700 px-6 py-2 rounded-full font-bold">📧 Anunciar por Gmail</a>
-  </div>
 </section>
-
-<script>
-function openPixModalNormal(){
-  alert('📦 Classificados Normais: Envie seu anúncio para nandonascimento122@gmail.com com fotos e descrição. Grátis 7 dias! Destaque R$15 via Pix chave ae2a8102-e170-44f2-8664-93ad448b26d6');
-  window.location.href = 'mailto:nandonascimento122@gmail.com?subject=Anúncio Classificados Normais&body=Olá, quero anunciar: ';
-}
-
-function renderClassificadosNormais(){
-  const itens = [
-    {titulo:"Gol G5 2014 - R$28.000", cat:"Carros", desc:"Completo, 4 portas, IPVA ok", bairro:"Juazeiro", img:"https://picsum.photos/seed/carro1/300/200", preco:"R$28k"},
-    {titulo:"Casa 2 quartos - R$650/mês", cat:"Casas", desc:"Limoeiro, quintal grande", bairro:"Limoeiro", img:"https://picsum.photos/seed/casa1/300/200", preco:"R$650"},
-    {titulo:"Vaga Vendedor - Loja Centro", cat:"Empregos", desc:"Com experiência, salário + comissão", bairro:"Centro", img:"https://picsum.photos/seed/emprego1/300/200", preco:"Vaga"},
-    {titulo:"Moto Pop 110 - R$8.500", cat:"Motos", desc:"2022, só 12 mil km", bairro:"Triângulo", img:"https://picsum.photos/seed/moto1/300/200", preco:"R$8.5k"},
-    {titulo:"Serviço de Pedreiro", cat:"Serviços", desc:"Orçamento grátis, 15 anos experiência", bairro:"Cariri", img:"https://picsum.photos/seed/serv1/300/200", preco:"Orçamento"},
-    {titulo:"iPhone 11 - R$1.800", cat:"Eletrônicos", desc:"64GB, bateria 89%", bairro:"Crato", img:"https://picsum.photos/seed/cel1/300/200", preco:"R$1.8k"},
-    {titulo:"Terreno 10x30 - R$45.000", cat:"Casas", desc:"Bairro Novo Juazeiro, escritura", bairro:"Novo Juazeiro", img:"https://picsum.photos/seed/terr1/300/200", preco:"R$45k"},
-    {titulo:"Precisa-se de Diarista", cat:"Empregos", desc:"2x por semana, R$150/dia", bairro:"Salesianos", img:"https://picsum.photos/seed/diarista/300/200", preco:"R$150/dia"},
-  ];
-  document.getElementById('classificadosGrid').innerHTML = itens.map(c=>`
-    <div class="bg-white border rounded-xl overflow-hidden hover:shadow-lg transition">
-      <div class="relative"><img src="${c.img}" class="w-full h-40 object-cover"><div class="absolute top-2 left-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded">${c.cat.toUpperCase()}</div><div class="absolute top-2 right-2 bg-black/70 text-white text-[10px] px-2 py-1 rounded">${c.preco}</div></div>
-      <div class="p-3"><div class="font-bold text-sm">${c.titulo}</div><div class="text-[11px] text-zinc-500">${c.bairro}</div><div class="text-xs mt-1">${c.desc}</div><div class="mt-2 flex gap-2"><a href="mailto:nandonascimento122@gmail.com?subject=Interesse: ${encodeURIComponent(c.titulo)}" class="flex-1 bg-black text-white text-center py-2 rounded-full text-xs font-bold">📧 Contato Gmail</a></div></div>
-    </div>
-  `).join('');
-}
-renderClassificadosNormais();
-</script>
-
 
 <!-- CHAT AO VIVO + LIVE WEBCAM -->
 <section id="liveChat" class="bg-white border-y-4 border-red-600 py-6">
@@ -249,608 +135,248 @@ renderClassificadosNormais();
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">
       <div>
         <h2 class="font-black text-xl flex items-center gap-2">💬 CHAT AO VIVO + 🔴 LIVE WEBCAM</h2>
-        <p class="text-xs text-zinc-600">Troca de mensagens entre usuários em tempo real + transmissão ao vivo pela webcam (tipo Instagram Live)</p>
+        <p class="text-xs text-zinc-600">Troca de mensagens em tempo real + transmissão ao vivo pela webcam</p>
       </div>
       <div class="flex gap-2">
         <span id="onlineCount" class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-bold">● 127 online agora</span>
         <span class="bg-red-600 text-white text-xs px-3 py-1 rounded-full pulse">🔴 AO VIVO</span>
       </div>
     </div>
-
     <div class="grid lg:grid-cols-3 gap-4">
-      <!-- LIVE WEBCAM AREA -->
       <div class="lg:col-span-2 bg-black rounded-xl overflow-hidden">
         <div class="p-3 bg-zinc-900 text-white flex justify-between items-center">
           <div class="flex items-center gap-2"><div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">📹</div><div><div class="font-bold text-sm">Live: Juazeiro Agora</div><div class="text-[11px] opacity-70">por nandonascimento122@gmail.com</div></div></div>
           <div class="flex gap-2">
-            <button onclick="startWebcamLive()" id="btnStartLive" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-full text-xs font-bold">▶️ INICIAR MINHA LIVE</button>
-            <button onclick="stopWebcamLive()" id="btnStopLive" class="hidden bg-zinc-700 text-white px-3 py-1 rounded-full text-xs">⏹️ Parar</button>
+            <button onclick="startWebcamLive()" id="btnStartLive" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded-full text-xs font-bold">▶ INICIAR MINHA LIVE</button>
+            <button onclick="stopWebcamLive()" id="btnStopLive" class="hidden bg-zinc-700 text-white px-3 py-1 rounded-full text-xs">⏹ Parar</button>
           </div>
         </div>
-        
         <div class="aspect-video bg-zinc-800 relative flex items-center justify-center">
           <video id="webcamVideo" autoplay muted playsinline class="w-full h-full object-cover hidden"></video>
           <div id="webcamPlaceholder" class="text-center text-white p-8">
             <div class="text-6xl mb-3">📹</div>
             <div class="font-black">LIVE WEBCAM CARIRI 24H</div>
-            <div class="text-xs opacity-70 mt-2">Clique em INICIAR MINHA LIVE para transmitir ao vivo pela sua webcam<br>Seus espectadores vão te ver aqui + chat ao vivo</div>
-            <div class="mt-4 text-[10px] bg-zinc-700 inline-block px-3 py-1 rounded">Funciona no celular e PC - Permita acesso à câmera</div>
+            <div class="text-xs opacity-70 mt-2">Clique em INICIAR MINHA LIVE para transmitir ao vivo pela sua webcam</div>
           </div>
           <div id="liveBadge" class="hidden absolute top-3 left-3 bg-red-600 text-white text-xs px-3 py-1 rounded-full font-bold pulse">● LIVE - 43 assistindo</div>
-          <div class="absolute bottom-3 left-3 bg-black/60 text-white text-[10px] px-2 py-1 rounded">Ad: ca-app-pub-3362553991120944/1449523748 + profitableRateCPM</div>
-        </div>
-
-        <div class="p-3 bg-zinc-900 text-white flex gap-2 text-xs">
-          <button onclick="alert('Link da live copiado: ' + window.location.href + '#live')" class="bg-zinc-700 px-3 py-1 rounded-full">🔗 Compartilhar Live</button>
-          <button onclick="document.getElementById('webcamVideo').requestFullscreen()" class="bg-zinc-700 px-3 py-1 rounded-full">⛶ Tela Cheia</button>
-          <span class="ml-auto opacity-60">Live via WebRTC (wecan) - sem servidor, direto no navegador</span>
         </div>
       </div>
-
-      <!-- CHAT AREA -->
       <div class="bg-zinc-50 border rounded-xl flex flex-col h-[420px]">
         <div class="p-3 bg-white border-b rounded-t-xl flex justify-between items-center">
           <div class="font-black text-sm">💬 Chat da Live</div>
-          <div class="text-[10px] text-zinc-500">Mensagens entre usuários</div>
         </div>
-        
-        <div id="chatMessages" class="flex-1 overflow-y-auto p-3 space-y-2 text-sm">
-          <div class="bg-white p-2 rounded-lg border"><b class="text-red-600">Admin:</b> Bem-vindos ao chat ao vivo do Portal 24H Juazeiro! 🔴</div>
-          <div class="bg-white p-2 rounded-lg border"><b>Maria:</b> Boa noite galera de Juazeiro!</div>
-          <div class="bg-white p-2 rounded-lg border"><b>João Cariri:</b> Alguém viu a chuva hoje?</div>
-        </div>
-
+        <div id="chatMessages" class="flex-1 overflow-y-auto p-3 space-y-2 text-sm"></div>
         <div class="p-2 bg-white border-t rounded-b-xl">
           <div class="flex gap-2 mb-2">
             <input id="chatName" placeholder="Seu nome" class="w-24 text-xs border rounded-full px-3 py-1" value="Visitante">
-            <input id="chatInput" placeholder="Digite sua mensagem e aperte Enter..." class="flex-1 text-xs border rounded-full px-3 py-2" onkeypress="if(event.key==='Enter') sendChat()">
+            <input id="chatInput" placeholder="Digite sua mensagem..." class="flex-1 text-xs border rounded-full px-3 py-2" onkeypress="if(event.key==='Enter') sendChat()">
           </div>
           <div class="flex gap-2">
-            <button onclick="sendChat()" class="flex-1 bg-black text-white text-xs py-2 rounded-full font-bold">Enviar Mensagem</button>
-            <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="bg-yellow-400 text-black text-[10px] px-3 py-2 rounded-full font-bold">AD $</a>
+            <button onclick="sendChat()" class="flex-1 bg-black text-white text-xs py-2 rounded-full font-bold">Enviar</button>
           </div>
-          <div class="text-[9px] text-zinc-400 mt-1 text-center">Chat via BroadcastChannel - funciona entre abas + salva local. Para chat global real, conecte Firebase.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<script>
+<section id="videos" class="bg-black text-white py-4"><div class="max-w-7xl mx-auto px-4"><h2 class="font-black mb-3"><span data-translate="videos">🔴 TV 24H - VIDEOS AO VIVO CARIRI</span></h2><div class="flex gap-3 overflow-x-auto" id="videoBar"></div></div></section>
 
-// CHAT AO VIVO ENTRE USUARIOS - COM FIREBASE GLOBAL
+<main class="max-w-7xl mx-auto p-4 grid lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2">
+<div class="flex justify-between mb-3"><h2 class="font-black" data-translate="news">Noticias 24h <span id="lastUpdate" class="text-xs font-normal"></span></h2><button onclick="loadNews()" class="bg-white border px-3 py-1 text-xs rounded">Atualizar</button></div>
+<div id="hero" class="mb-4"></div>
+<div id="newsList" class="space-y-3"></div>
+<button onclick="shown+=6;render()" class="w-full bg-white border py-3 mt-4 font-bold">Carregar + Noticias</button>
+</div>
+
+<aside class="space-y-4">
+<!-- ====== BANNER SIDEBAR 300x250 - ID 6075840 - ONDE PAGA MAIS ====== -->
+<div class="bg-white p-3 border rounded sticky top-20">
+  <div class="text-[10px] mb-2 text-center text-zinc-400">PUBLICIDADE</div>
+  <div class="flex justify-center">
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '6075840',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/6075840/invoke.js"></script>
+  </div>
+</div>
+<!-- FIM BANNER SIDEBAR -->
+
+<div class="bg-white p-3 border rounded">
+  <div class="text-[10px] mb-2">PUBLICIDADE</div>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3362553991120944" data-ad-slot="1449523748" data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+</aside>
+</main>
+
+<!-- 18+ GATE -->
+<div id="adultGate" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded-xl p-6 max-w-sm w-full text-center"><div class="text-4xl">🔞</div><h2 class="font-black text-xl">Conteudo 18+</h2><p class="text-sm mt-2">Conteudo informativo adulto para maiores de 18 anos. Tem 18+?</p><div class="flex gap-2 mt-4"><button onclick="confirmAdult(true)" class="flex-1 bg-black text-white py-2 rounded">SIM</button><button onclick="confirmAdult(false)" class="flex-1 bg-zinc-200 py-2 rounded">NAO</button></div></div></div>
+<div id="adultSection" class="hidden max-w-7xl mx-auto px-4 py-6 bg-white mt-4 rounded-xl border-2 border-zinc-900">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
+    <div><h2 class="font-black text-2xl">🔞 CLASSIFICADOS 18+ CARIRI</h2><p class="text-sm text-zinc-600">Anúncios adultos verificados. 100% sigilo.</p></div>
+    <button onclick="openPixModal()" class="bg-green-600 text-white px-4 py-1 rounded text-xs font-bold">+ ANUNCIAR R$30 - PIX</button>
+  </div>
+  <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4" id="adultGrid"></div>
+  <div class="mt-6 p-4 bg-zinc-900 text-white rounded text-center">
+    <div class="font-black">💰 BANNER EXCLUSIVO 18+</div>
+    <div class="flex justify-center mt-2">
+      <script type="text/javascript">
+        atOptions = { 'key' : '6075840', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/6075840/invoke.js"></script>
+    </div>
+  </div>
+</div>
+
+<div id="videoModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4"><div class="bg-black w-full max-w-3xl rounded"><div class="flex justify-between p-3 text-white"><span id="videoTitle"></span><button onclick="closeVideo()" class="bg-white text-black px-2 rounded">X</button></div><div class="aspect-video"><iframe id="videoFrame" class="w-full h-full" src="" allowfullscreen></iframe></div></div></div>
+
+<script>
+const PIX_CONFIG = { chave: localStorage.getItem('minhaChavePix') || "ae2a8102-e170-44f2-8664-93ad448b26d6", nome: "Portal 24H Juazeiro", cidade: "Juazeiro do Norte", valor: 30.00 };
+function geraPixCopiaECola(){ const chave = PIX_CONFIG.chave; const valor = PIX_CONFIG.valor.toFixed(2); return `00020126360014BR.GOV.BCB.PIX0114${chave}520400005303986540${valor}5802BR5913${PIX_CONFIG.nome}6009Juazeiro62100511CLASSIFICAD6304`; }
+let shown=7;
+let allNews=[
+{t:"Bolsa Familia paga NIS 6 hoje em Juazeiro - 19 mil familias",d:"Caixa paga beneficio medio R$678",cat:"ceara",time:"ha 1h",img:"https://picsum.photos/seed/1/600/300"},
+{t:"Mega-Sena 38 milhoes hoje",d:"Ninguem acertou ontem",cat:"brasil",time:"ha 2h",img:"https://picsum.photos/seed/2/600/300"},
+{t:"Ibovespa recorde 143.546 pontos",d:"Alta 0,90% anima mercado",cat:"brasil",time:"ha 2h",img:"https://picsum.photos/seed/3/600/300"},
+{t:"Chuva alaga Av Padre Cicero em Juazeiro",d:"Defesa Civil alerta Cariri",cat:"ceara",time:"ha 4h",img:"https://picsum.photos/seed/5/600/300"},
+{t:"Romaria Padre Cicero lota Juazeiro 500 mil fieis",d:"Hoteis lotados",cat:"ceara",time:"ha 5h",img:"https://picsum.photos/seed/6/600/300"},
+{t:"Operacao PM prende 3 no Joao Cabral",d:"Drogas e armas apreendidas",cat:"policia",time:"ha 5h",img:"https://picsum.photos/seed/7/600/300"},
+{t:"Icasa vence e entra G4 Serie D",d:"2x0 em casa",cat:"esportes",time:"ha 6h",img:"https://picsum.photos/seed/8/600/300"},
+{t:"Concurso Prefeitura Juazeiro 200 vagas ate R$5mil",d:"Inscricao ate 30/09",cat:"ceara",time:"ha 6h",img:"https://picsum.photos/seed/9/600/300"},
+];
+const videos=[{title:"AO VIVO Av Padre Cicero",dur:"LIVE",thumb:"https://picsum.photos/seed/v1/200/120",id:"jfKfPfyJRdk"},{title:"Chuva forte Juazeiro hoje",dur:"02:34",thumb:"https://picsum.photos/seed/v2/200/120",id:"dQw4w9WgXcQ"}];
+function renderVideos(){document.getElementById('videoBar').innerHTML=videos.map(v=>`<div onclick="playVideo('${v.id}','${v.title}')" class="min-w-[160px] bg-zinc-800 rounded overflow-hidden cursor-pointer"><div class="relative"><img src="${v.thumb}" class="w-full h-[90px] object-cover"><span class="absolute bottom-1 right-1 bg-black/80 text-[10px] px-1 rounded">${v.dur}</span></div><div class="p-2 text-xs">${v.title}</div></div>`).join('');}
+function playVideo(id,title){document.getElementById('videoTitle').innerText=title;document.getElementById('videoFrame').src=`https://www.youtube.com/embed/${id}?autoplay=1`;document.getElementById('videoModal').classList.remove('hidden');}
+function closeVideo(){document.getElementById('videoModal').classList.add('hidden');document.getElementById('videoFrame').src='';}
+function escapeHtml(str){ if(!str) return ""; return str.toString().replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function render(){
+  const hero=allNews[0];
+  if(hero){
+    document.getElementById('hero').innerHTML=`<div class="bg-white rounded border overflow-hidden"><img src="${hero.img}" class="w-full h-64 object-cover"><div class="p-4"><span class="bg-red-600 text-white text-xs px-2 py-1">${escapeHtml(hero.cat.toUpperCase())}</span> <span class="text-xs">${escapeHtml(hero.time)}</span><h1 class="font-black text-xl mt-2">${escapeHtml(hero.t)}</h1><p class="text-sm text-zinc-600">${escapeHtml(hero.d)}</p></div></div>`;
+  }
+  let html='';
+  allNews.slice(1,shown).forEach((n,i)=>{
+    html+=`<div class="bg-white rounded border flex overflow-hidden"><img src="${n.img}" class="w-28 h-20 object-cover"><div class="p-2 flex-1"><div class="text-[10px] text-zinc-500">${escapeHtml(n.cat.toUpperCase())} • ${escapeHtml(n.time)}</div><div class="font-bold text-sm leading-tight">${escapeHtml(n.t)}</div></div></div>`;
+    if((i+1)%3===0) html+=`
+    <div class="bg-white border p-3 text-center rounded">
+      <div class="text-[10px] text-zinc-400 mb-2">PUBLICIDADE</div>
+      <div class="flex justify-center">
+        <script type="text/javascript">
+          atOptions = { 'key' : '6075840', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };
+        <\/script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/6075840/invoke.js"><\/script>
+      </div>
+    </div>`;
+  });
+  document.getElementById('newsList').innerHTML=html;
+  document.getElementById('lastUpdate').innerText='Atualizado '+new Date().toLocaleTimeString();
+}
+function loadNews(){render();}
+
+function openAdult(){document.getElementById('adultGate').classList.remove('hidden');}
+function confirmAdult(yes){
+  document.getElementById('adultGate').classList.add('hidden');
+  if(yes){
+    document.getElementById('adultSection').classList.remove('hidden');
+    document.getElementById('adultGrid').innerHTML = `<div class="col-span-4 text-center p-8 text-sm text-zinc-500">Classificados 18+ carregados. Para monetização separada, use apenas o banner 6075840 nesta área.</div>`;
+    document.getElementById('adultSection').scrollIntoView();
+  }
+}
+
 const chatChannel = new BroadcastChannel('cariri_chat');
 let chatHistory = JSON.parse(localStorage.getItem('cariri_chat_history') || '[]');
 let useFirebase = firebaseDB !== null;
-
 function renderChat(){
   const box = document.getElementById('chatMessages');
-  box.innerHTML = chatHistory.slice(-50).map(m=>`<div class="bg-white p-2 rounded-lg border"><b class="${m.admin?'text-red-600':''}">${m.nome}:</b> ${m.texto} <span class="text-[9px] text-zinc-400 float-right">${m.hora}</span></div>`).join('');
+  box.innerHTML = chatHistory.slice(-50).map(m=>`<div class="bg-white p-2 rounded-lg border"><b class="${m.admin?'text-red-600':''}">${escapeHtml(m.nome)}:</b> ${escapeHtml(m.texto)} <span class="text-[9px] text-zinc-400 float-right">${escapeHtml(m.hora)}</span></div>`).join('');
   box.scrollTop = box.scrollHeight;
 }
-
 function sendChat(){
   const nome = document.getElementById('chatName').value || 'Anônimo';
   const input = document.getElementById('chatInput');
   const texto = input.value.trim();
   if(!texto) return;
   const msg = {nome, texto, hora: new Date().toLocaleTimeString(), admin: false, timestamp: Date.now()};
-  
-  if(useFirebase && firebaseDB){
-    firebaseDB.ref('chat_cariri').push(msg);
-  } else {
-    chatHistory.push(msg);
-    localStorage.setItem('cariri_chat_history', JSON.stringify(chatHistory));
-    chatChannel.postMessage(msg);
-    renderChat();
-  }
+  if(useFirebase && firebaseDB){ firebaseDB.ref('chat_cariri').push(msg); }
+  else { chatHistory.push(msg); localStorage.setItem('cariri_chat_history', JSON.stringify(chatHistory)); chatChannel.postMessage(msg); renderChat(); }
   input.value = '';
-  if(chatHistory.length % 5 === 0){
-    window.open('https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc','_blank');
-  }
 }
-
 if(useFirebase && firebaseDB){
-  firebaseDB.ref('chat_cariri').limitToLast(50).on('child_added', (snap)=>{
-    const m = snap.val();
-    chatHistory.push(m);
-    if(chatHistory.length > 100) chatHistory.shift();
-    renderChat();
-  });
+  firebaseDB.ref('chat_cariri').limitToLast(50).on('child_added', (snap)=>{ const m = snap.val(); chatHistory.push(m); if(chatHistory.length > 100) chatHistory.shift(); renderChat(); });
 } else {
-  chatChannel.onmessage = (e)=>{
-    chatHistory.push(e.data);
-    localStorage.setItem('cariri_chat_history', JSON.stringify(chatHistory));
-    renderChat();
-  };
+  chatChannel.onmessage = (e)=>{ chatHistory.push(e.data); localStorage.setItem('cariri_chat_history', JSON.stringify(chatHistory)); renderChat(); };
 }
-
-// Inicializa chat
-if(chatHistory.length === 0){
-  chatHistory = [
-    {nome:'Admin', texto:'Bem-vindos ao chat GLOBAL do Portal 24H Juazeiro! 🔴 Mensagens agora são globais via Firebase', hora:'agora', admin:true},
-    {nome:'Maria', texto:'Boa noite galera de Juazeiro!', hora:'19:32'},
-    {nome:'João Cariri', texto:'Alguém viu a chuva hoje?', hora:'19:33'},
-  ];
-}
+if(chatHistory.length === 0){ chatHistory = [{nome:'Admin', texto:'Bem-vindos ao chat do Portal 24H Juazeiro! 🔴', hora:'agora', admin:true}]; }
 renderChat();
 
-// LIVE WEBCAM (wecan = webcam) + GRAVAÇÃO
-let webcamStream = null;
-let mediaRecorder = null;
-let recordedChunks = [];
+let webcamStream = null; let mediaRecorder = null; let recordedChunks = [];
 async function startWebcamLive(){
   try{
     webcamStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
     const video = document.getElementById('webcamVideo');
-    video.srcObject = webcamStream;
-    video.classList.remove('hidden');
+    video.srcObject = webcamStream; video.classList.remove('hidden');
     document.getElementById('webcamPlaceholder').classList.add('hidden');
     document.getElementById('liveBadge').classList.remove('hidden');
     document.getElementById('btnStartLive').classList.add('hidden');
     document.getElementById('btnStopLive').classList.remove('hidden');
-    document.getElementById('onlineCount').innerText = '● 43 assistindo sua live';
-    
-    // Inicia gravação para quem perdeu
-    recordedChunks = [];
-    mediaRecorder = new MediaRecorder(webcamStream, {mimeType:'video/webm'});
+    recordedChunks = []; mediaRecorder = new MediaRecorder(webcamStream, {mimeType:'video/webm'});
     mediaRecorder.ondataavailable = e=>{ if(e.data.size>0) recordedChunks.push(e.data); };
-    mediaRecorder.onstop = ()=>{
-      const blob = new Blob(recordedChunks, {type:'video/webm'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'live-juazeiro-'+Date.now()+'.webm';
-      a.textContent = '⬇️ Baixar gravação da live (para quem perdeu)';
-      a.className = 'block mt-2 bg-yellow-400 text-black text-xs px-3 py-2 rounded-full font-bold text-center';
-      document.getElementById('liveBadge').parentElement.appendChild(a);
-      if(useFirebase){
-        // Salva referência da live gravada (simulado - precisa Storage)
-        firebaseDB.ref('lives_gravadas').push({nome: document.getElementById('chatName').value, data: new Date().toISOString(), duracao: 'gravada'});
-      }
-    };
     mediaRecorder.start();
-    
-    chatHistory.push({nome:'Sistema', texto:'🔴 LIVE INICIADA por ' + (document.getElementById('chatName').value || 'Você') + ' via webcam! Gravando para quem perder.', hora: new Date().toLocaleTimeString(), admin:true});
+    chatHistory.push({nome:'Sistema', texto:'🔴 LIVE INICIADA via webcam!', hora: new Date().toLocaleTimeString(), admin:true});
     if(useFirebase) firebaseDB.ref('chat_cariri').push(chatHistory[chatHistory.length-1]);
     renderChat();
-  }catch(err){
-    alert('Precisa permitir câmera e microfone! Erro: ' + err.message);
-  }
+  }catch(err){ alert('Permita câmera e microfone! Erro: ' + err.message); }
 }
 function stopWebcamLive(){
   if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-  if(webcamStream){
-    webcamStream.getTracks().forEach(t=>t.stop());
-    webcamStream = null;
-  }
+  if(webcamStream){ webcamStream.getTracks().forEach(t=>t.stop()); webcamStream = null; }
   document.getElementById('webcamVideo').classList.add('hidden');
   document.getElementById('webcamPlaceholder').classList.remove('hidden');
   document.getElementById('liveBadge').classList.add('hidden');
   document.getElementById('btnStartLive').classList.remove('hidden');
   document.getElementById('btnStopLive').classList.add('hidden');
-  document.getElementById('onlineCount').innerText = '● 127 online agora';
-}
-setInterval(()=>{
-  const n = 100 + Math.floor(Math.random()*50);
-  if(!webcamStream) document.getElementById('onlineCount').innerText = `● ${n} online agora`;
-}, 5000);
-
-</script>
-<section id="videos" class="bg-black text-white py-4"><div class="max-w-7xl mx-auto px-4"><h2 class="font-black mb-3"><span data-translate="videos">🔴 TV 24H - VIDEOS AO VIVO CARIRI</span></h2><div class="flex gap-3 overflow-x-auto" id="videoBar"></div></div></section>
-<main class="max-w-7xl mx-auto p-4 grid lg:grid-cols-3 gap-6"><div class="lg:col-span-2"><div class="flex justify-between mb-3"><h2 class="font-black" data-translate="news">Noticias 24h - Atualiza sozinha <span id="lastUpdate" class="text-xs font-normal"></span></h2><button onclick="loadNews()" class="bg-white border px-3 py-1 text-xs rounded">Atualizar</button></div><div id="hero" class="mb-4"></div><div id="newsList" class="space-y-3"></div><button onclick="shown+=6;render()" class="w-full bg-white border py-3 mt-4 font-bold">Carregar + Noticias</button></div><aside class="space-y-4"><div class="bg-white p-3 border rounded sticky top-20"><div class="text-[10px] mb-2">AD 300x250</div><div class="h-[250px] bg-gradient-to-br from-yellow-200 to-orange-400 flex flex-col items-center justify-center p-4 text-center"><div class="font-black">GANHE R$50 HOJE</div><a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="mt-3 bg-black text-white px-6 py-2 rounded-full font-bold">CLIQUE AQUI</a><div class="text-[9px] mt-2">profitableRateCPM - paga em dolar</div></div></div></aside></main>
-<div id="adultGate" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4"><div class="bg-white rounded-xl p-6 max-w-sm w-full text-center"><div class="text-4xl">🔞</div><h2 class="font-black text-xl">Conteudo 18+</h2><p class="text-sm mt-2">Conteudo informativo adulto (vida noturna, motéis, saude intima). Sem nudez explicita. Tem 18+?</p><div class="flex gap-2 mt-4"><button onclick="confirmAdult(true)" class="flex-1 bg-black text-white py-2 rounded">SIM</button><button onclick="confirmAdult(false)" class="flex-1 bg-zinc-200 py-2 rounded">NAO</button></div></div></div>
-
-<div id="adultSection" class="hidden max-w-7xl mx-auto px-4 py-6 bg-white mt-4 rounded-xl border-2 border-zinc-900">
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6">
-    <div>
-      <h2 class="font-black text-2xl">🔞 CLASSIFICADOS 18+ CARIRI - OLX ADULTO</h2>
-      <p class="text-sm text-zinc-600">Anúncios de acompanhantes, motéis, sex shop, massagens. 100% sigilo. Juazeiro, Crato, Barbalha.</p>
-    </div>
-    <div class="flex gap-2">
-      <button class="bg-zinc-900 text-white px-3 py-1 rounded text-xs">Acompanhantes</button>
-      <button class="bg-zinc-100 px-3 py-1 rounded text-xs">Motéis</button>
-      <button class="bg-zinc-100 px-3 py-1 rounded text-xs">Sex Shop</button>
-      <button onclick="openPixModal()" class="bg-green-600 text-white px-4 py-1 rounded text-xs font-bold">+ ANUNCIAR R$30 - PIX</button>
-    </div>
-  </div>
-
-  <div class="bg-yellow-50 border border-yellow-300 p-3 rounded text-xs mb-4 text-center">
-    🔒 Todos os anúncios são verificados. Proibido nudez explícita. Conteúdo apenas informativo adulto para maiores de 18 anos. 
-    <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="font-bold underline">Anuncie aqui e ganhe em dólar com profitableRateCPMNetwork</a>
-  </div>
-
-  <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4" id="adultGrid"></div>
-
-  <div class="mt-6 p-4 bg-zinc-900 text-white rounded text-center">
-    <div class="font-black">💰 GANHE COM CLASSIFICADOS 18+</div>
-    <div class="text-sm mt-1">Cada anunciante paga R$30/semana. 20 anunciantes = R$600/semana = R$2400/mês só nos classificados + anúncios em dólar</div>
-    <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="inline-block mt-3 bg-white text-black px-6 py-2 rounded-full font-bold">VER ANÚNCIO PREMIUM QUE PAGA EM DÓLAR</a>
-  </div>
-</div>
-
-<div id="videoModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4"><div class="bg-black w-full max-w-3xl rounded"><div class="flex justify-between p-3 text-white"><span id="videoTitle"></span><button onclick="closeVideo()" class="bg-white text-black px-2 rounded">X</button></div><div class="aspect-video"><iframe id="videoFrame" class="w-full h-full" src="" allowfullscreen></iframe></div></div></div>
-<script>
-
-// ========== CONFIGURAÇÃO PIX - TROQUE AQUI SUA CHAVE ==========
-const PIX_CONFIG = {
-  chave: "ae2a8102-e170-44f2-8664-93ad448b26d6", // COLOQUE SUA CHAVE: CPF, celular, email ou aleatória. RECOMENDADO: chave aleatória
-  nome: "Portal 24H Juazeiro",
-  email: "nandonascimento122@gmail.com", // Seu nome no Pix
-  cidade: "Juazeiro do Norte",
-  valor: 30.00, // Valor do anúncio
-  txid: "CLASSIFICADOS18" // Identificador
-};
-// Função para gerar payload Pix Copia e Cola (BR Code simples)
-function geraPixCopiaECola(){
-  const chave = PIX_CONFIG.chave;
-  const valor = PIX_CONFIG.valor.toFixed(2);
-  // Payload simplificado - funciona em 99% dos bancos
-  // Formato: 000201... (padrão BR Code)
-  // Para simplificar, geramos um texto que o usuário copia e cola no banco
-  return `00020126360014BR.GOV.BCB.PIX0114${chave}520400005303986540${valor}5802BR5913${PIX_CONFIG.nome}6009Juazeiro62100511CLASSIFICAD6304`;
 }
 
-let shown=7;
-let allNews=[
-{t:"Bolsa Familia paga NIS 6 hoje em Juazeiro - 19 mil familias",d:"Caixa paga beneficio medio R$678",cat:"ceara",time:"ha 1h",img:"https://picsum.photos/seed/1/600/300"},
-{t:"Mega-Sena 38 milhoes hoje",d:"Ninguem acertou ontem",cat:"brasil",time:"ha 2h",img:"https://picsum.photos/seed/2/600/300"},
-{t:"Ibovespa recorde 143.546 pontos",d:"Alta 0,90% anima mercado",cat:"brasil",time:"ha 2h",img:"https://picsum.photos/seed/3/600/300"},
-{t:"Crise na PF: Andre Mendonca afasta Andrei Rodrigues",d:"Caso Banco Master e INSS",cat:"brasil",time:"ha 3h",img:"https://picsum.photos/seed/4/600/300"},
-{t:"Chuva alaga Av Padre Cicero em Juazeiro",d:"Defesa Civil alerta Cariri",cat:"ceara",time:"ha 4h",img:"https://picsum.photos/seed/5/600/300"},
-{t:"Romaria Padre Cicero lota Juazeiro 500 mil fieis",d:"Hoteis lotados",cat:"ceara",time:"ha 5h",img:"https://picsum.photos/seed/6/600/300"},
-{t:"Operacao PM prende 3 no Joao Cabral",d:"Drogas e armas apreendidas",cat:"policia",time:"ha 5h",img:"https://picsum.photos/seed/7/600/300"},
-{t:"Icasa vence e entra G4 Serie D",d:"2x0 em casa",cat:"esportes",time:"ha 6h",img:"https://picsum.photos/seed/8/600/300"},
-{t:"Concurso Prefeitura Juazeiro 200 vagas ate R$5mil",d:"Inscricao ate 30/09",cat:"ceara",time:"ha 6h",img:"https://picsum.photos/seed/9/600/300"},
-{t:"UPA Limoeiro fila 3h",d:"Moradores reclamam",cat:"ceara",time:"ha 7h",img:"https://picsum.photos/seed/10/600/300"},
-{t:"Gasolina sobe para R$6,29 em Juazeiro",d:"Postos reajustam",cat:"ceara",time:"ha 9h",img:"https://picsum.photos/seed/12/600/300"},
-{t:"Top 5 bares bombados Juazeiro fim de semana",d:"Vida noturna Cariri",cat:"ceara",time:"ha 10h",img:"https://picsum.photos/seed/13/600/300"},
-{t:"Moteis Juazeiro lotacao recorde feriado",d:"Setor comemora",cat:"18",time:"ha 12h",img:"https://picsum.photos/seed/15/600/300"},
-{t:"Saude intima: 5 cuidados casal Cariri",d:"Conteudo educativo adulto",cat:"18",time:"ha 12h",img:"https://picsum.photos/seed/14/600/300"},
-{t:"Vida noturna: onde solteiros Cariri se encontram",d:"Bares e festas",cat:"18",time:"ha 13h",img:"https://picsum.photos/seed/16/600/300"},
-{t:"Padre Cicero: historia e milagres",d:"Conheca trajetoria",cat:"ceara",time:"ha 14h",img:"https://picsum.photos/seed/17/600/300"},
-{t:"BR-116 tem acidente com 2 vitimas em Barbalha",d:"PRF atendeu",cat:"policia",time:"ha 15h",img:"https://picsum.photos/seed/18/600/300"},
-{t:"Feira do Joao Cabral: precos sobem",d:"Feirantes reclamam",cat:"ceara",time:"ha 16h",img:"https://picsum.photos/seed/19/600/300"},
-{t:"Enem 2026: inscricoes abertas Cariri",d:"Provas em novembro",cat:"brasil",time:"ha 17h",img:"https://picsum.photos/seed/20/600/300"},
-{t:"Flamengo vence e lidera Brasileirao",d:"Mengao 2x1",cat:"esportes",time:"ha 18h",img:"https://picsum.photos/seed/21/600/300"},
-];
-const videos=[{title:"AO VIVO Av Padre Cicero",dur:"LIVE",thumb:"https://picsum.photos/seed/v1/200/120",id:"jfKfPfyJRdk"},{title:"Chuva forte Juazeiro hoje",dur:"02:34",thumb:"https://picsum.photos/seed/v2/200/120",id:"dQw4w9WgXcQ"},{title:"Entrevista Prefeito",dur:"12:10",thumb:"https://picsum.photos/seed/v3/200/120",id:"jfKfPfyJRdk"},{title:"Vaquejada Missao Velha",dur:"05:22",thumb:"https://picsum.photos/seed/v4/200/120",id:"dQw4w9WgXcQ"},{title:"Romaria drone",dur:"03:15",thumb:"https://picsum.photos/seed/v5/200/120",id:"jfKfPfyJRdk"},{title:"Operacao Policia Cariri",dur:"04:00",thumb:"https://picsum.photos/seed/v6/200/120",id:"dQw4w9WgXcQ"},{title:"Icasa gols",dur:"06:11",thumb:"https://picsum.photos/seed/v7/200/120",id:"jfKfPfyJRdk"},{title:"Previsao tempo Cariri",dur:"LIVE",thumb:"https://picsum.photos/seed/v8/200/120",id:"dQw4w9WgXcQ"}];
-function renderVideos(){document.getElementById('videoBar').innerHTML=videos.map(v=>`<div onclick="playVideo('${v.id}','${v.title}')" class="min-w-[160px] bg-zinc-800 rounded overflow-hidden cursor-pointer"><div class="relative"><img src="${v.thumb}" class="w-full h-[90px] object-cover"><span class="absolute bottom-1 right-1 bg-black/80 text-[10px] px-1 rounded">${v.dur}</span></div><div class="p-2 text-xs">${v.title}</div></div>`).join('');}
-function playVideo(id,title){document.getElementById('videoTitle').innerText=title;document.getElementById('videoFrame').src=`https://www.youtube.com/embed/${id}?autoplay=1`;document.getElementById('videoModal').classList.remove('hidden');}
-function closeVideo(){document.getElementById('videoModal').classList.add('hidden');document.getElementById('videoFrame').src='';}
-function render(){const hero=allNews[0];document.getElementById('hero').innerHTML=`<div class="bg-white rounded border overflow-hidden"><img src="${hero.img}" class="w-full h-64 object-cover"><div class="p-4"><span class="bg-red-600 text-white text-xs px-2 py-1">${hero.cat.toUpperCase()}</span> <span class="text-xs">${hero.time}</span><h1 class="font-black text-xl mt-2">${hero.t}</h1><p class="text-sm text-zinc-600">${hero.d}</p></div></div>`;let html='';allNews.slice(1,shown).forEach((n,i)=>{html+=`<div class="bg-white rounded border flex overflow-hidden"><img src="${n.img}" class="w-28 h-20 object-cover"><div class="p-2 flex-1"><div class="text-[10px] text-zinc-500">${n.cat.toUpperCase()} • ${n.time}</div><div class="font-bold text-sm leading-tight">${n.t}</div></div></div>`;if((i+1)%3===0) html+=`<div class="bg-white border-2 border-dashed border-yellow-400 p-3 text-center rounded"><div class="text-xs">AD In-feed ca-app-pub-3362553991120944 + profitableRateCPM</div><a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="inline-block mt-2 bg-black text-white px-4 py-2 rounded text-sm font-bold">🔥 GANHE EM DOLAR 🔥</a></div>`;});document.getElementById('newsList').innerHTML=html;document.getElementById('lastUpdate').innerText='Atualizado '+new Date().toLocaleTimeString();}
-function loadNews(){render(); document.getElementById('lastUpdate').innerText='Atualizado agora '+new Date().toLocaleTimeString();}
-function openAdult(){document.getElementById('adultGate').classList.remove('hidden');}
-
-function confirmAdult(yes){
-  document.getElementById('adultGate').classList.add('hidden');
-  if(yes){
-    document.getElementById('adultSection').classList.remove('hidden');
-    const classificados = [
-      {nome:"Luna - 22 anos - Juazeiro", tipo:"Acompanhante", desc:"Atendo em local discreto, 24h. Gmail no anúncio.", bairro:"João Cabral", img:"https://picsum.photos/seed/luna/300/300", premium:true},
-      {nome:"Motel Paradise - Suíte com Jacuzzi", tipo:"Motel", desc:"Promoção segunda a quinta R$89. Ar-condicionado + Wi-Fi", bairro:"Triângulo", img:"https://picsum.photos/seed/motel1/300/200", premium:true},
-      {nome:"Carol - Massagem Relaxante", tipo:"Massagem", desc:"Massagem profissional, ambiente climatizado. Só Gmail.", bairro:"Lagoa Seca", img:"https://picsum.photos/seed/carol/300/300", premium:false},
-      {nome:"Sex Shop Cariri - Entrega sigilosa", tipo:"Sex Shop", desc:"Entrega em 1h em Juazeiro/Crato. Pix e cartão.", bairro:"Centro", img:"https://picsum.photos/seed/shop1/300/200", premium:true},
-      {nome:"Isabela - 26 anos - Crato", tipo:"Acompanhante", desc:"Loira, local próprio, fotos reais no Gmail.", bairro:"Crato", img:"https://picsum.photos/seed/isa/300/300", premium:false},
-      {nome:"Motel Afrodite - Suíte Premium", tipo:"Motel", desc:"Suíte com teto espelhado + café da manhã. R$129", bairro:"Barbalha", img:"https://picsum.photos/seed/motel2/300/200", premium:false},
-      {nome:"Negra Safira - 24 anos", tipo:"Acompanhante", desc:"Atendo casais e solteiros. Sigilo total.", bairro:"Salesianos", img:"https://picsum.photos/seed/safira/300/300", premium:true},
-      {nome:"Clínica Bem-Estar - Massagem Tântrica", tipo:"Massagem", desc:"Curso e atendimento. Profissional certificado.", bairro:"Pirajá", img:"https://picsum.photos/seed/tantrica/300/200", premium:false},
-    ];
-    document.getElementById('adultGrid').innerHTML = classificados.map(c=>`
-      <div class="bg-white border ${c.premium?'border-yellow-400 border-2':''} rounded-xl overflow-hidden hover:shadow-lg transition">
-        ${c.premium?'<div class="bg-yellow-400 text-[10px] font-black px-2 py-1 text-center">⭐ ANÚNCIO PREMIUM - DESTAQUE</div>':''}
-        <div class="relative">
-          <img src="${c.img}" class="w-full h-48 object-cover blur-[8px] hover:blur-0 transition-all duration-500">
-          <div class="absolute top-2 left-2 bg-black/70 text-white text-[10px] px-2 py-1 rounded">${c.tipo.toUpperCase()}</div>
-          <div class="absolute top-2 right-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded">● ONLINE</div>
-        </div>
-        <div class="p-3">
-          <div class="font-black text-sm">${c.nome}</div>
-          <div class="text-[11px] text-zinc-500">${c.bairro} • Juazeiro do Norte</div>
-          <div class="text-xs mt-2 leading-tight">${c.desc}</div>
-          <div class="mt-3 flex gap-2">
-            <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="flex-1 bg-green-600 text-white text-center py-2 rounded-full text-xs font-bold">💬 Ver Gmail</a>
-            <button class="bg-zinc-100 px-3 py-2 rounded-full text-xs">📞</button>
-          </div>
-          <div class="mt-2 text-[9px] text-zinc-400">Anúncio verificado • ${c.premium?'Paga em dólar via profitableRateCPM':''}</div>
-        </div>
-      </div>
-    `).join('');
-    document.getElementById('adultSection').scrollIntoView();
-  }
+function openPixModalNormal(){ alert('Envie seu anúncio para nandonascimento122@gmail.com com fotos e descrição.'); window.location.href = 'mailto:nandonascimento122@gmail.com?subject=Anúncio Classificados Normais'; }
+function renderClassificadosNormais(){
+  const itens = [
+    {titulo:"Gol G5 2014 - R$28.000", cat:"Carros", desc:"Completo, 4 portas", bairro:"Juazeiro", img:"https://picsum.photos/seed/carro1/300/200", preco:"R$28k"},
+    {titulo:"Casa 2 quartos - R$650/mês", cat:"Casas", desc:"Limoeiro, quintal grande", bairro:"Limoeiro", img:"https://picsum.photos/seed/casa1/300/200", preco:"R$650"},
+  ];
+  const grid = document.getElementById('classificadosGrid');
+  if(grid) grid.innerHTML = itens.map(c=>`<div class="bg-white border rounded-xl overflow-hidden"><div class="relative"><img src="${c.img}" class="w-full h-40 object-cover"><div class="absolute top-2 left-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded">${c.cat.toUpperCase()}</div></div><div class="p-3"><div class="font-bold text-sm">${c.titulo}</div><div class="text-[11px] text-zinc-500">${c.bairro}</div><div class="text-xs mt-1">${c.desc}</div></div></div>`).join('');
 }
-
+renderClassificadosNormais();
 renderVideos();render();
-
 async function loadDiarioNordeste(){
   try{
     const rssUrl = 'https://diariodonordeste.verdesmares.com.br/rss';
     const api = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
     const r = await fetch(api).then(res=>res.json());
     if(r && r.items){
-      const diario = r.items.slice(0,8).map(i=>({t:i.title,d:i.description.replace(/<[^>]*>/g,'').substring(0,100),cat:"ceara",time:"Diário Nordeste • agora",img:i.enclosure?.link||`https://picsum.photos/seed/diario${Math.random()}/600/300`,link:i.link}));
-      allNews = [...diario, ...allNews];
-      render();
-      console.log("Diário do Nordeste carregado:", diario.length);
+      const diario = r.items.slice(0,8).map(i=>({t:i.title,d:i.description.replace(/<[^>]*>/g,'').substring(0,100),cat:"ceara",time:"Diário Nordeste",img:i.enclosure?.link||`https://picsum.photos/seed/diario${Math.random()}/600/300`}));
+      allNews = [...diario, ...allNews]; render();
     }
-  }catch(e){ console.log("Falha Diário, usando fallback"); }
+  }catch(e){}
 }
-// Carrega Diário ao iniciar
 loadDiarioNordeste();
 setInterval(loadDiarioNordeste, 300000);
-
 </script>
-
-<!-- MODAL PIX PAGAMENTO -->
-<div id="pixModal" class="fixed inset-0 bg-black/80 z-[60] hidden flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl p-6 max-w-sm w-full">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="font-black text-lg">💰 Pagar Anúncio R$30</h3>
-      <button onclick="closePix()" class="bg-zinc-100 px-2 py-1 rounded">X</button>
-    </div>
-    
-    <div class="bg-zinc-50 p-3 rounded text-xs mb-3">
-      <div><b>Como funciona sem precisar me passar sua chave:</b></div>
-      <div class="mt-1">1. Você coloca sua chave Pix no código (linha 14) - fica só no seu site, não vai pra mim</div>
-      <div>2. Cliente clica em ANUNCIAR → gera QR Code com SUA chave</div>
-      <div>3. Cliente paga direto na SUA conta</div>
-      <div>4. Cliente envia comprovante no seu Gmail</div>
-      <div>5. Você libera o anúncio (ou automático se usar Mercado Pago)</div>
-    </div>
-
-    <div class="text-center">
-      <div class="bg-white border-2 border-dashed p-4 rounded-xl mb-3">
-        <div class="text-xs text-zinc-500">PIX COPIA E COLA</div>
-        <div id="pixCode" class="font-mono text-[10px] break-all bg-yellow-50 p-2 rounded mt-2 select-all">Carregando...</div>
-        <button onclick="navigator.clipboard.writeText(document.getElementById('pixCode').innerText); alert('Copiado! Cola no seu banco.')" class="mt-2 bg-black text-white px-4 py-2 rounded-full text-xs font-bold w-full">📋 COPIAR CÓDIGO PIX</button>
-      </div>
-      
-      <div class="bg-zinc-900 text-white p-3 rounded text-xs">
-        <div>Chave: <span id="pixChaveShow">ae2a8102-e170-44f2-8664-93ad448b26d6</span></div>
-        <div>Valor: R$ 30,00 - 7 dias de destaque</div>
-        <div>Nome: <span id="pixNomeShow">Portal 24H</span></div>
-        <div>Email: nandonascimento122@gmail.com</div>
-      </div>
-
-      <div class="mt-3 text-[11px] text-left bg-green-50 p-2 rounded">
-        ✅ <b>Segurança:</b> Use chave aleatória (recomendado) ou celular. NUNCA use CPF se não quiser expor. O Pix vai direto pra você, eu não tenho acesso.
-      </div>
-
-      <a id="whatsComprovante" href="#" target="_blank" class="mt-3 block bg-green-600 text-white py-3 rounded-full font-bold text-sm">📲 Enviar Comprovante no Gmail</a>
-      
-      <div class="mt-3 text-[10px] text-zinc-400">
-        Quer automático 100%? Crie conta no Mercado Pago e me passe o Access Token que eu coloco checkout automático que aprova sozinho.
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function openPixModal(){
-  const chave = PIX_CONFIG.chave;
-  if(chave === "ae2a8102-e170-44f2-8664-93ad448b26d6" || chave === ""){
-    const nova = prompt("⚠️ Configure sua chave Pix primeiro!\n\nDigite sua chave Pix (recomendado: chave aleatória):\nEx: 123e4567-e89b-12d3-a456-426614174000");
-    if(nova && nova.length > 5){
-      PIX_CONFIG.chave = nova;
-      document.getElementById('pixChaveShow').innerText = nova;
-      localStorage.setItem('minhaChavePix', nova);
-      alert("Chave salva no seu navegador! Agora é só copiar o código Pix que aparece.");
-    } else {
-      alert("Chave inválida. Use uma chave aleatória do seu banco.");
-      return;
-    }
-  }
-  document.getElementById('pixCode').innerText = geraPixCopiaECola();
-  document.getElementById('pixChaveShow').innerText = PIX_CONFIG.chave;
-  document.getElementById('pixNomeShow').innerText = PIX_CONFIG.nome;
-  const whatsNum = "nandonascimento122@gmail.com"; // TROQUE SEU WHATSAPP AQUI
-  document.getElementById('whatsComprovante').href = `https://mailto:nandonascimento122@gmail.com?subject=Comprovante Anúncio 18+&body=/${whatsNum}?text=Oi! Paguei o anúncio de R$30 no Classificados 18+ Cariri. Segue comprovante:`;
-  document.getElementById('pixModal').classList.remove('hidden');
-}
-function closePix(){ document.getElementById('pixModal').classList.add('hidden'); }
-
-// Carrega chave salva
-const savedKey = localStorage.getItem('minhaChavePix');
-if(savedKey){ PIX_CONFIG.chave = savedKey; }
-</script>
-
 
 <footer class="bg-zinc-900 text-zinc-400 text-xs p-6 mt-10 text-center">
   <div class="max-w-7xl mx-auto">
     <div class="font-bold text-white">Portal 24H Juazeiro - Contato: nandonascimento122@gmail.com</div>
-    <div class="mt-2">Notícias 24h do Cariri, vídeos ao vivo, rádio, classificados 18+.</div>
-    <div class="mt-2">Chave Pix: ae2a8102-e170-44f2-8664-93ad448b26d6 | AdMob: ca-app-pub-3362553991120944/1449523748 | Profitable CPM Network</div>
-    <div class="mt-2">Este site usa cookies e exibe anúncios. Conteúdo 18+ com verificação de idade. Política de Privacidade | LGPD</div>
-    <div class="mt-3 flex justify-center gap-4">
-      <a href="mailto:nandonascimento122@gmail.com" class="bg-white text-black px-4 py-1 rounded-full font-bold">📧 Enviar Email</a>
-      <a href="https://www.profitableratecpmnetwork.com/ids8riz8eg?key=613566576d7d97c0fcd3ca6071f9a2bc" target="_blank" class="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold">💰 Anúncios em Dólar</a>
-    </div>
+    <div class="mt-2">Banner ID 6075840 ativo no sidebar + meio das notícias</div>
   </div>
 </footer>
-
-
-<script>
-// TRADUÇÃO AUTOMÁTICA DO CHAT AO VIVO
-let currentChatLang = localStorage.getItem('site_lang') || 'pt';
-
-async function translateText(text, targetLang){
-  if(!text || targetLang === 'pt' || text.length < 3) return text;
-  try{
-    // Usa API gratuita MyMemory (sem chave)
-    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=pt|${targetLang}`);
-    const data = await res.json();
-    if(data && data.responseData && data.responseData.translatedText){
-      return data.responseData.translatedText;
-    }
-    return text;
-  }catch(e){
-    console.log('Falha tradução chat', e);
-    return text;
-  }
-}
-
-// Sobrescreve renderChat para incluir tradução
-const originalRenderChat = renderChat;
-let translatedCache = {};
-
-async function renderChatTranslated(){
-  const box = document.getElementById('chatMessages');
-  const targetLang = localStorage.getItem('site_lang') || 'pt';
-  currentChatLang = targetLang;
-  
-  // Renderiza com loading de tradução se necessário
-  let htmlOut = '';
-  for(let i=0; i<Math.min(chatHistory.length, 50); i++){
-    const m = chatHistory[chatHistory.length - Math.min(chatHistory.length,50) + i];
-    if(!m) continue;
-    let textoExibir = m.texto;
-    let original = '';
-    
-    if(targetLang !== 'pt' && !m.admin){
-      const cacheKey = m.texto + '|' + targetLang;
-      if(translatedCache[cacheKey]){
-        textoExibir = translatedCache[cacheKey];
-        original = `<div class="text-[9px] text-zinc-400 italic">Original: ${m.texto}</div>`;
-      } else {
-        // Traduz em background
-        translateText(m.texto, targetLang).then(trad=>{
-          translatedCache[cacheKey] = trad;
-          renderChatTranslated();
-        });
-        original = `<div class="text-[9px] text-zinc-400 italic">Traduzindo...</div>`;
-      }
-    }
-    
-    htmlOut += `<div class="bg-white p-2 rounded-lg border">
-      <b class="${m.admin?'text-red-600':''}">${m.nome}:</b> ${textoExibir} 
-      <span class="text-[9px] text-zinc-400 float-right">${m.hora} ${targetLang!=='pt'?'🌐':''}</span>
-      ${original}
-    </div>`;
-  }
-  box.innerHTML = htmlOut;
-  box.scrollTop = box.scrollHeight;
-}
-
-// Substitui função original
-renderChat = renderChatTranslated;
-
-// Adiciona botão de tradução no chat
-const chatHeaderExtra = `
-  <div class="flex items-center gap-2">
-    <div class="text-[10px] text-zinc-500">Auto-traduzido</div>
-    <select id="chatLangSelect" onchange="localStorage.setItem('site_lang', this.value); renderChatTranslated();" class="text-[10px] border rounded px-1 py-0">
-      <option value="pt">🇧🇷 PT</option>
-      <option value="en">🇺🇸 EN</option>
-      <option value="es">🇪🇸 ES</option>
-      <option value="fr">🇫🇷 FR</option>
-    </select>
-  </div>
-`;
-
-// Injeta seletor no header do chat após carregar
-setTimeout(()=>{
-  const header = document.querySelector('#liveChat .bg-white.border-b');
-  if(header){
-    const div = document.createElement('div');
-    div.innerHTML = chatHeaderExtra;
-    header.appendChild(div.firstElementChild);
-    const sel = document.getElementById('chatLangSelect');
-    if(sel) sel.value = localStorage.getItem('site_lang') || 'pt';
-  }
-}, 500);
-
-// Observa mudança de idioma global
-const origChangeLang = window.changeLang;
-window.changeLang = function(lang){
-  origChangeLang(lang);
-  setTimeout(()=>{ renderChatTranslated(); }, 200);
-};
-</script>
-
-
-<script>
-// TRADUÇÃO AUTOMÁTICA DAS NOTÍCIAS
-let newsTranslatedCache = {};
-let currentNewsLang = localStorage.getItem('site_lang') || 'pt';
-
-async function translateNewsText(text, targetLang){
-  if(!text || targetLang === 'pt' || text.length < 5) return text;
-  const cacheKey = text + '|' + targetLang;
-  if(newsTranslatedCache[cacheKey]) return newsTranslatedCache[cacheKey];
-  try{
-    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=pt|${targetLang}`);
-    const data = await res.json();
-    if(data && data.responseData && data.responseData.translatedText){
-      newsTranslatedCache[cacheKey] = data.responseData.translatedText;
-      return data.responseData.translatedText;
-    }
-    return text;
-  }catch(e){ return text; }
-}
-
-let originalAllNews = [];
-let isTranslatingNews = false;
-
-async function translateAllNews(targetLang){
-  if(targetLang === 'pt'){
-    // Volta ao original
-    if(originalAllNews.length > 0){
-      allNews = [...originalAllNews];
-      render();
-    }
-    return;
-  }
-  if(isTranslatingNews) return;
-  isTranslatingNews = true;
-  
-  // Salva original na primeira vez
-  if(originalAllNews.length === 0){
-    originalAllNews = JSON.parse(JSON.stringify(allNews));
-  }
-  
-  document.getElementById('lastUpdate').innerText = '🌐 Traduzindo notícias para ' + targetLang.toUpperCase() + '...';
-  
-  // Traduz em lotes para não sobrecarregar API
-  for(let i=0; i<allNews.length && i<15; i++){
-    const n = allNews[i];
-    const origT = originalAllNews[i] ? originalAllNews[i].t : n.t;
-    const origD = originalAllNews[i] ? originalAllNews[i].d : n.d;
-    n.t = await translateNewsText(origT, targetLang);
-    n.d = await translateNewsText(origD, targetLang);
-    // Pequeno delay pra não bloquear API
-    await new Promise(r=>setTimeout(r, 200));
-    if(i % 3 === 0) render(); // renderiza parcial
-  }
-  
-  render();
-  document.getElementById('lastUpdate').innerText = '🌐 Traduzido para ' + targetLang.toUpperCase() + ' - ' + new Date().toLocaleTimeString();
-  isTranslatingNews = false;
-}
-
-// Sobrescreve changeLang para também traduzir notícias
-const origChangeLang2 = window.changeLang;
-window.changeLang = function(lang){
-  if(typeof origChangeLang !== 'undefined') origChangeLang(lang);
-  else if(typeof origChangeLang2 !== 'undefined') origChangeLang2(lang);
-  else {
-    localStorage.setItem('site_lang', lang);
-    document.documentElement.lang = lang;
-  }
-  currentNewsLang = lang;
-  translateAllNews(lang);
-  setTimeout(()=>{ 
-    if(typeof renderChatTranslated === 'function') renderChatTranslated(); 
-  }, 200);
-  // Atualiza UI
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('ring-2','ring-yellow-400'));
-  const activeBtn = document.getElementById('lang-'+lang);
-  if(activeBtn) activeBtn.classList.add('ring-2','ring-yellow-400');
-};
-
-// Também traduz notícias do Diário do Nordeste quando carregar
-const originalLoadDiario = window.loadDiarioNordeste;
-const originalRender = window.render;
-</script>
-
 </body>
 </html>
