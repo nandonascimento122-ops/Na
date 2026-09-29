@@ -55,26 +55,50 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-of
 </main>
 <script>
 (function(){
-var MAX=10, KEY='acl-links', list=document.getElementById('list'), st=document.getElementById('st');
-var currentTimeout = null, countdownTimer = null;
+var MAX = 10;
+var KEY = 'acl-links';
+var list = document.getElementById('list');
+var st = document.getElementById('st');
+var currentTimeout = null;
+var countdownTimer = null;
 var isRunning = false;
-var inputs=[];
+var inputs = [];
 
-function say(t, c) { st.textContent = t; st.className = c || ''; }
+function say(t, c) {
+  st.textContent = t;
+  st.className = c || '';
+}
 
 function norm(u) {
-  u = (u || '').trim(); if (!u) return '';
+  u = (u || '').trim();
+  if (!u) return '';
   if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
-  try { var x = new URL(u); return /^https?:$/.test(x.protocol) && x.hostname.indexOf('.') > 0 ? x.href : ''; } catch (e) { return ''; }
+  try {
+    var x = new URL(u);
+    return /^https?:$/.test(x.protocol) && x.hostname.includes('.') ? x.href : '';
+  } catch (e) {
+    return '';
+  }
 }
 
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify({ l: inputs.map(function(i){ return i.value }), s: document.getElementById('sec').value })); } catch (e) {}
+  try {
+    localStorage.setItem(KEY, JSON.stringify({
+      l: inputs.map(function(i){ return i.value; }),
+      s: document.getElementById('sec').value
+    }));
+  } catch (e) {}
 }
 
 function load() {
-  try { var d = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (d) { inputs.forEach(function(i, n){ i.value = (d.l && d.l[n]) || ''; }); if (d.s) document.getElementById('sec').value = d.s; }
+  try {
+    var d = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (d) {
+      inputs.forEach(function(i, n){
+        i.value = (d.l && d.l[n]) || '';
+      });
+      if (d.s) document.getElementById('sec').value = d.s;
+    }
   } catch (e) {}
 }
 
@@ -85,19 +109,44 @@ function openOne(u) {
 
 for (var i = 0; i < MAX; i++) {
   (function(n) {
-    var row = document.createElement('div'); row.className = 'item';
-    var num = document.createElement('span'); num.textContent = (n + 1) + '.';
-    var inp = document.createElement('input'); inp.placeholder = 'Link ' + (n + 1) + ' (https://...)'; inp.setAttribute('aria-label', 'Link ' + (n + 1)); inp.inputMode = 'url';
-    inp.oninput = function() { inp.classList.remove('bad'); save(); };
-    var b = document.createElement('button'); b.type = 'button'; b.className = 'g'; b.textContent = 'Abrir';
+    var row = document.createElement('div');
+    row.className = 'item';
+    
+    var num = document.createElement('span');
+    num.textContent = (n + 1) + '.';
+    
+    var inp = document.createElement('input');
+    inp.placeholder = 'Link ' + (n + 1) + ' (https://...)';
+    inp.setAttribute('aria-label', 'Link ' + (n + 1));
+    inp.inputMode = 'url';
+    inp.oninput = function() {
+      inp.classList.remove('bad');
+      save();
+    };
+    
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'g';
+    b.textContent = 'Abrir';
     b.onclick = function() {
       var u = norm(inp.value);
-      if (!u) { inp.classList.add('bad'); say('Link ' + (n + 1) + ' inválido.', 'bad'); return; }
-      say(openOne(u) ? 'Link ' + (n + 1 + ' aberto.') : 'Pop-up bloqueado. Permita e tente de novo.', '');
+      if (!u) {
+        inp.classList.add('bad');
+        say('Link ' + (n + 1) + ' inválido.', 'bad');
+        return;
+      }
+      var aberto = openOne(u);
+      say(aberto ? 'Link ' + (n + 1) + ' aberto.' : 'Pop-up bloqueado. Permita e tente de novo.', aberto ? '' : 'bad');
     };
-    row.appendChild(num); row.appendChild(inp); row.appendChild(b); list.appendChild(row); inputs.push(inp);
+    
+    row.appendChild(num);
+    row.appendChild(inp);
+    row.appendChild(b);
+    list.appendChild(row);
+    inputs.push(inp);
   })(i);
 }
+
 load();
 document.getElementById('sec').oninput = save;
 
@@ -106,91 +155,102 @@ function collect() {
   inputs.forEach(function(inp) {
     if (!inp.value.trim()) return;
     var u = norm(inp.value);
-    if (u) out.push(u); else { inp.classList.add('bad'); }
+    if (u) out.push(u);
+    else inp.classList.add('bad');
   });
   return out;
 }
 
 function stopSeq() {
   isRunning = false;
-  if (currentTimeout) { clearTimeout(currentTimeout); currentTimeout = null; }
-  if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  if (currentTimeout) {
+    clearTimeout(currentTimeout);
+    currentTimeout = null;
+  }
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
   document.getElementById('seq').textContent = 'Abrir um por um';
 }
 
 document.getElementById('all').onclick = function() {
   stopSeq();
   var urls = collect();
-  if (!urls.length) { say('Cole pelo menos um link válido.', 'bad'); return; }
-  var ok = 0; urls.forEach(function(u){ if (openOne(u)) ok++; });
-  if (ok === urls.length) say(ok + ' link(s) abertos.', 'ok');
-  else say('Abriu ' + ok + ' de ' + urls.length + '. O navegador bloqueou o resto: permita pop-ups.', 'bad');
+  if (!urls.length) {
+    say('Cole pelo menos um link válido.', 'bad');
+    return;
+  }
+  var ok = 0;
+  urls.forEach(function(u){
+    if (openOne(u)) ok++;
+  });
+  if (ok === urls.length) {
+    say(ok + ' link(s) abertos.', 'ok');
+  } else {
+    say('Abriu ' + ok + ' de ' + urls.length + '. Permita pop-ups.', 'bad');
+  }
 };
 
 document.getElementById('seq').onclick = function() {
   if (isRunning) {
     stopSeq();
-    say('Sequência interrompida pelo usuário.');
+    say('Sequência interrompida.');
     return;
   }
-
   var urls = collect();
-  if (!urls.length) { say('Cole pelo menos um link válido.', 'bad'); return; }
-
+  if (!urls.length) {
+    say('Cole pelo menos um link válido.', 'bad');
+    return;
+  }
   var secs = Math.max(2, parseInt(document.getElementById('sec').value, 10) || 5);
   var idx = 0;
   
   isRunning = true;
-  document.getElementById('seq').textContent = 'Parar';
-
-  function openNextStep() {
+  this.textContent = 'Parar';
+  
+  function openNext() {
     if (!isRunning) return;
-
     if (idx >= urls.length) {
       stopSeq();
-      say('Concluído: ' + urls.length + ' link(s) abertos com sucesso.', 'ok');
+      say('Concluído: ' + urls.length + ' link(s) abertos.', 'ok');
       return;
     }
-
-    // Tenta abrir a aba atual
     if (!openOne(urls[idx])) {
       stopSeq();
-      say('Pop-up bloqueado no link ' + (idx + 1) + '. Permita pop-ups no navegador.', 'bad');
+      say('Pop-up bloqueado no link ' + (idx + 1) + '. Permita pop-ups.', 'bad');
       return;
     }
-
     idx++;
-    
-    // Se ainda houver links, inicia a contagem regressiva para o próximo
     if (idx < urls.length) {
-      var timeLeft = secs;
-      say('Link ' + idx + ' de ' + urls.length + ' aberto. Próximo em ' + timeLeft + 's...');
-
+      var restante = secs;
+      say('Link ' + idx + '/' + urls.length + ' aberto. Próximo em ' + restante + 's');
       countdownTimer = setInterval(function() {
         if (!isRunning) {
           clearInterval(countdownTimer);
           return;
         }
-        timeLeft--;
-        if (timeLeft > 0) {
-          say('Link ' + idx + ' de ' + urls.length + ' aberto. Próximo em ' + timeLeft + 's...');
+        restante--;
+        if (restante > 0) {
+          say('Link ' + idx + '/' + urls.length + ' aberto. Próximo em ' + restante + 's');
         } else {
           clearInterval(countdownTimer);
-          openNextStep();
+          openNext();
         }
       }, 1000);
     } else {
-      openNextStep();
+      openNext();
     }
   }
-
-  // Dispara o primeiro link imediatamente
-  openNextStep();
+  openNext();
 };
 
 document.getElementById('clr').onclick = function() {
   stopSeq();
-  inputs.forEach(function(i){ i.value = ''; i.classList.remove('bad'); });
+  inputs.forEach(function(i){
+    i.value = '';
+    i.classList.remove('bad');
+  });
   save();
   say('Lista limpa.');
 };
