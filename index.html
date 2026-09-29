@@ -28,7 +28,7 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-of
 .opts{display:flex;align-items:center;gap:10px;margin:14px 0 4px;flex-wrap:wrap}
 .opts input{width:90px}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-#st{margin-top:12px;min-height:1.5em;color:var(--muted)}
+#st{margin-top:12px;min-height:1.5em;color:var(--muted);font-weight:600}
 #st.ok{color:var(--ok)}#st.bad{color:var(--bad)}
 .note{font-size:.88rem;color:var(--muted);margin:14px 0 0}
 @media (prefers-reduced-motion:reduce){button:active{transform:none}}
@@ -55,7 +55,8 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--acc);outline-of
 </main>
 <script>
 (function(){
-var MAX=10,KEY='acl-links',list=document.getElementById('list'),st=document.getElementById('st'),tm=null;
+var MAX=10,KEY='acl-links',list=document.getElementById('list'),st=document.getElementById('st');
+var timerInterval=null, countdownTimer=null;
 var inputs=[];
 
 function say(t,c){st.textContent=t;st.className=c||''}
@@ -92,54 +93,19 @@ document.getElementById('sec').oninput=save;
 
 function collect(){
   var out=[];
-  inputs.forEach(function(inp,n){
+  inputs.forEach(function(inp){
     if(!inp.value.trim())return;
     var u=norm(inp.value);
     if(u)out.push(u);else{inp.classList.add('bad')}
   });
   return out;
 }
-function stopSeq(){if(tm){clearInterval(tm);tm=null}document.getElementById('seq').textContent='Abrir um por um'}
 
-// Função para abertura automática em sequência
-function autoOpenLinks() {
-  stopSeq();
-  var urls = collect();
-  if (!urls.length) {
-    say('Cole pelo menos um link válido.', 'bad');
-    return;
-  }
-  var secs = Math.max(2, parseInt(document.getElementById('sec').value, 10) || 5);
-  var idx = 0;
-  say('Iniciando abertura automática...');
-  function next() {
-    if (!openOne(urls[idx])) {
-      stopSeq();
-      say('Pop-up bloqueado no link ' + (idx + 1) + '. Permita pop-ups.', 'bad');
-      return;
-    }
-    idx++;
-    say('Aberto ' + idx + ' de ' + urls.length + '.');
-    if (idx >= urls.length) {
-      stopSeq();
-      say('Concluído: ' + urls.length + ' link(s) abertos.', 'ok');
-    }
-  }
-  next();
-  if (idx < urls.length) tm = setInterval(next, secs * 1000);
+function stopSeq(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  if(countdownTimer){clearInterval(countdownTimer);countdownTimer=null;}
+  document.getElementById('seq').textContent='Abrir um por um';
 }
-
-// Reinicia abertura automática ao alterar links ou o tempo
-inputs.forEach((input) => {
-  input.addEventListener('input', () => {
-    save();
-    autoOpenLinks();
-  });
-});
-document.getElementById('sec').addEventListener('input', () => {
-  save();
-  autoOpenLinks();
-});
 
 document.getElementById('all').onclick=function(){
   stopSeq();
@@ -151,22 +117,56 @@ document.getElementById('all').onclick=function(){
 };
 
 document.getElementById('seq').onclick=function(){
-  if(tm){stopSeq();say('Parado.');return}
+  if(timerInterval || countdownTimer){
+    stopSeq();
+    say('Sequência pausada.');
+    return;
+  }
+  
   var urls=collect();
   if(!urls.length){say('Cole pelo menos um link válido.','bad');return}
-  var secs=Math.max(2,parseInt(document.getElementById('sec').value,10)||5),idx=0;
+  
+  var secs=Math.max(2,parseInt(document.getElementById('sec').value,10)||5);
+  var idx=0;
+  
   document.getElementById('seq').textContent='Parar';
-  function next(){
-    if(!openOne(urls[idx])){
+  
+  function processNext(){
+    if(idx>=urls.length){
       stopSeq();
-      say('Pop-up bloqueado no link '+(idx+1)+'. Permita pop-ups ou use "Abrir todos de uma vez".','bad');
+      say('Concluído: '+urls.length+' link(s) abertos com sucesso.', 'ok');
       return;
     }
-    idx++;say('Aberto '+idx+' de '+urls.length+'.');
-    if(idx>=urls.length){stopSeq();say('Concluído: '+urls.length+' link(s) abertos.','ok')}
+    
+    // Tenta abrir o link atual
+    if(!openOne(urls[idx])){
+      stopSeq();
+      say('Pop-up bloqueado no link '+(idx+1)+'. Permita pop-ups no navegador.','bad');
+      return;
+    }
+    
+    idx++;
+    
+    if(idx<urls.length){
+      var timeLeft=secs;
+      say('Link '+(idx)+' aberto. Próximo em '+timeLeft+'s...');
+      
+      countdownTimer=setInterval(function(){
+        timeLeft--;
+        if(timeLeft>0){
+          say('Link '+idx+' aberto. Próximo em '+timeLeft+'s...');
+        } else {
+          clearInterval(countdownTimer);
+          processNext();
+        }
+      }, 1000);
+    } else {
+      processNext();
+    }
   }
-  next();
-  if(idx<urls.length)tm=setInterval(next,secs*1000);
+  
+  // Inicia o primeiro imediatamente
+  processNext();
 };
 
 document.getElementById('clr').onclick=function(){
@@ -175,11 +175,6 @@ document.getElementById('clr').onclick=function(){
   save();
   say('Lista limpa.');
 };
-
-// Inicia automaticamente a abertura ao carregar a página
-window.addEventListener('load', () => {
-  autoOpenLinks();
-});
 })();
 </script>
 </body>
