@@ -110,7 +110,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
     <label for="sn">Seu nome</label><input id="sn" required maxlength="60">
     <label for="sc">Seu e-mail ou WhatsApp</label><input id="sc" required maxlength="60">
     <label for="sk">Sua chave Pix (para receber)</label><input id="sk" required maxlength="80">
-    <p class="meta" style="margin:10px 0 0">Ao enviar, abre um e-mail para a loja. Anexe o arquivo do ebook (PDF ou EPUB) nele. Você recebe 90% de cada venda por Pix.</p>
+    <p class="meta" style="margin:10px 0 0">Ao enviar, você escolhe WhatsApp ou Gmail. Mande o arquivo do ebook (PDF ou EPUB) na mesma conversa. Você recebe 90% de cada venda por Pix.</p>
     <div class="actions">
       <button type="button" id="cancelSell">Cancelar</button>
       <button class="pri" type="submit">Publicar</button>
@@ -130,17 +130,25 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
   <div id="pixStep" style="display:none">
     <label for="pixKey">Chave Pix (e-mail)</label>
     <input id="pixKey" value="nandonascimento122@gmail.com" readonly>
-    <p class="meta" style="margin:10px 0 0">O pedido foi preparado em um e-mail para a loja. Envie-o e depois faça o Pix.</p>
+    <p class="meta" style="margin:10px 0 0">Envie o pedido para a loja (WhatsApp ou Gmail) e depois faça o Pix.</p>
     <div class="actions">
       <button id="copyPix">Copiar chave</button>
       <button class="pri" id="paid">Já paguei</button>
     </div>
   </div>
 </dialog>
+<dialog id="dSend">
+  <h2>Enviar para a loja</h2>
+  <p class="meta" style="margin:0">Escolha por onde quer enviar. A mensagem já vai pronta.</p>
+  <div class="actions">
+    <button id="sendMail">Gmail</button>
+    <button class="pri" id="sendWa">WhatsApp</button>
+  </div>
+</dialog>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
-var COMISSAO=0.9,DONO="nandonascimento122@gmail.com";
+var COMISSAO=0.9,DONO="nandonascimento122@gmail.com",WA="5584994552915",pend=null;
 var COLORS=["#0f766e","#b4453a","#3b4fa0","#7a4a9e","#8a6a12","#1f6b3a","#a1366b","#2b5f86"];
 var seed=[
  {id:1,t:"Como Escrever Sem Travar",a:"Marina Duarte",c:"Educação",p:24.9},
@@ -192,7 +200,8 @@ function brl(n){return n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function color(b){return COLORS[b.id%COLORS.length]}
 function $(id){return document.getElementById(id)}
-function mail(s,b){var a=document.createElement("a");a.href="mailto:"+DONO+"?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);a.target="_blank";document.body.appendChild(a);a.click();a.remove()}
+function mail(s,b){pend={s:s,b:b};$("dSend").showModal()}
+function go(u){var a=document.createElement("a");a.href=u;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()}
 function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display="none"},2200)}
 
 function renderShelf(){$("shelf").innerHTML=books.slice(0,7).map(function(b,i){return '<div class="spine" style="background:'+color(b)+';height:'+(130+((i*37)%90))+'px">'+esc(b.t.slice(0,18))+'</div>'}).join("")}
@@ -231,17 +240,19 @@ $("goPix").onclick=function(){
  if(!n||!c){toast("Preencha seu nome e e-mail ou WhatsApp");return}
  var items=cart.map(function(id){return books.filter(function(b){return b.id===id})[0]}).filter(Boolean);
  var rep=items.filter(function(b){return b.s}).map(function(b){return "- "+b.t+": repassar "+brl(b.p*COMISSAO)+" para "+b.s+" (Pix: "+b.k+")"});
- var body="Pedido de "+n+"\nContato: "+c+"\n\n"+items.map(function(b){return "- "+b.t+" ("+brl(b.p)+")"}).join("\n")+"\n\nTotal: "+$("pixTotal").textContent+(rep.length?"\n\nREPASSE AOS VENDEDORES:\n"+rep.join("\n"):"")+"\n\nPedido aguardando pagamento. Depois do Pix, envie o comprovante respondendo a este e-mail.";
+ var body="Pedido de "+n+"\nContato: "+c+"\n\n"+items.map(function(b){return "- "+b.t+" ("+brl(b.p)+")"}).join("\n")+"\n\nTotal: "+$("pixTotal").textContent+(rep.length?"\n\nREPASSE AOS VENDEDORES:\n"+rep.join("\n"):"")+"\n\nPedido aguardando pagamento. Depois do Pix, envie o comprovante por aqui.";
  mail("Pedido Estante (aguardando pagamento)",body);
- $("goStep").style.display="none";$("pixStep").style.display="block";toast("Envie o e-mail que abriu e faça o Pix");
+ $("goStep").style.display="none";$("pixStep").style.display="block";toast("Escolha como enviar o pedido e depois faça o Pix");
 };
-$("paid").onclick=function(){cart=[];save();renderCart();$("dPix").close();toast("Obrigado! Responda o e-mail do pedido com o comprovante do Pix.")};
+$("paid").onclick=function(){cart=[];save();renderCart();$("dPix").close();toast("Obrigado! Mande o comprovante do Pix pelo mesmo canal do pedido.")};
 $("fSell").addEventListener("submit",function(e){
  e.preventDefault();
  var t=$("t").value.trim();
- mail("Publicar ebook: "+t,"Quero publicar na Estante.\n\nTítulo: "+t+"\nAutor: "+$("a").value.trim()+"\nCategoria: "+$("c").value+"\nPreço: "+brl(parseFloat($("p").value))+"\n\nVendedor: "+$("sn").value.trim()+"\nContato: "+$("sc").value.trim()+"\nChave Pix: "+$("sk").value.trim()+"\n\nO arquivo do ebook está anexado a este e-mail.");
- $("fSell").reset();$("dSell").close();toast("Envie o e-mail que abriu, com o arquivo anexado");
+ mail("Publicar ebook: "+t,"Quero publicar na Estante.\n\nTítulo: "+t+"\nAutor: "+$("a").value.trim()+"\nCategoria: "+$("c").value+"\nPreço: "+brl(parseFloat($("p").value))+"\n\nVendedor: "+$("sn").value.trim()+"\nContato: "+$("sc").value.trim()+"\nChave Pix: "+$("sk").value.trim()+"\n\nVou enviar o arquivo do ebook (PDF ou EPUB) aqui na conversa.");
+ $("fSell").reset();$("dSell").close();toast("Escolha como enviar e mande o arquivo do ebook na conversa");
 });
+$("sendWa").onclick=function(){if(!pend)return;go("https://wa.me/"+WA+"?text="+encodeURIComponent(pend.s+"\n\n"+pend.b));$("dSend").close()};
+$("sendMail").onclick=function(){if(!pend)return;go("mailto:"+DONO+"?subject="+encodeURIComponent(pend.s)+"&body="+encodeURIComponent(pend.b));$("dSend").close()};
 all();
 </script>
 </body>
