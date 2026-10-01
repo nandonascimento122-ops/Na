@@ -25,7 +25,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .hero h1{font-size:clamp(2.2rem,5.5vw,4rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 16px;font-weight:800}
 .hero p{max-width:46ch;color:var(--mute);margin:0 0 22px}
 .shelf{display:flex;align-items:flex-end;gap:6px;height:230px;border-bottom:6px solid var(--ink)}
-.spine{flex:1;border-radius:4px 4px 0 0;writing-mode:vertical-rl;padding:12px 6px;font:700 .9rem "Bricolage Grotesque",sans-serif;color:#fff;display:flex;align-items:center;justify-content:space-between}
+.spine{flex:1;max-height:100%;border-radius:4px 4px 0 0;writing-mode:vertical-rl;padding:12px 6px;font:700 .9rem "Bricolage Grotesque",sans-serif;color:#fff;display:flex;align-items:center;justify-content:space-between}
 .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}
 input,select{font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);width:100%}
 .tools input{flex:1 1 240px;width:auto}
@@ -68,7 +68,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
 <section class="hero">
   <div>
     <h1>Ebooks de quem escreve, para quem lê.</h1>
-    <p>Compre leitura digital por um preço justo ou publique o seu ebook e fique com 90% de cada venda.</p>
+    <p>Compre leitura digital por um preço justo ou publique o seu ebook e receba 90% de cada venda por Pix, repassado pela loja.</p>
     <button class="pri" id="btnSell2">Publicar meu ebook</button>
   </div>
   <div class="shelf" id="shelf" aria-hidden="true"></div>
@@ -107,7 +107,10 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
     <label for="c">Categoria</label>
     <select id="c"><option>Ficção</option><option>Negócios</option><option>Tecnologia</option><option>Saúde</option><option>Educação</option></select>
     <label for="p">Preço (R$)</label><input id="p" type="number" min="1" step="0.01" required>
-    <label for="f">Arquivo (PDF ou EPUB)</label><input id="f" type="file" accept=".pdf,.epub">
+    <label for="sn">Seu nome</label><input id="sn" required maxlength="60">
+    <label for="sc">Seu e-mail ou WhatsApp</label><input id="sc" required maxlength="60">
+    <label for="sk">Sua chave Pix (para receber)</label><input id="sk" required maxlength="80">
+    <p class="meta" style="margin:10px 0 0">Ao enviar, abre um e-mail para a loja. Anexe o arquivo do ebook (PDF ou EPUB) nele. Você recebe 90% de cada venda por Pix.</p>
     <div class="actions">
       <button type="button" id="cancelSell">Cancelar</button>
       <button class="pri" type="submit">Publicar</button>
@@ -120,17 +123,24 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
   <label for="bName">Seu nome</label><input id="bName" maxlength="60" autocomplete="name">
   <label for="bContact">Seu e-mail ou WhatsApp</label><input id="bContact" maxlength="60" autocomplete="email">
   <div class="row" style="margin-top:12px"><span>Valor</span><strong id="pixTotal"></strong></div>
-  <label for="pixKey">Chave Pix (e-mail)</label>
-  <input id="pixKey" value="nandonascimento122@gmail.com" readonly>
-  <div class="actions">
-    <button id="copyPix">Copiar chave</button>
-    <button class="pri" id="paid">Já paguei</button>
+  <div class="actions" id="goStep">
+    <button id="closePix">Voltar</button>
+    <button class="pri" id="goPix">Continuar para o Pix</button>
   </div>
-  <div class="actions" style="margin-top:8px"><button id="closePix">Voltar</button></div>
+  <div id="pixStep" style="display:none">
+    <label for="pixKey">Chave Pix (e-mail)</label>
+    <input id="pixKey" value="nandonascimento122@gmail.com" readonly>
+    <p class="meta" style="margin:10px 0 0">O pedido foi preparado em um e-mail para a loja. Envie-o e depois faça o Pix.</p>
+    <div class="actions">
+      <button id="copyPix">Copiar chave</button>
+      <button class="pri" id="paid">Já paguei</button>
+    </div>
+  </div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
+var COMISSAO=0.9,DONO="nandonascimento122@gmail.com";
 var COLORS=["#0f766e","#b4453a","#3b4fa0","#7a4a9e","#8a6a12","#1f6b3a","#a1366b","#2b5f86"];
 var seed=[
  {id:1,t:"Como Escrever Sem Travar",a:"Marina Duarte",c:"Educação",p:24.9},
@@ -182,6 +192,7 @@ function brl(n){return n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function color(b){return COLORS[b.id%COLORS.length]}
 function $(id){return document.getElementById(id)}
+function mail(s,b){var a=document.createElement("a");a.href="mailto:"+DONO+"?subject="+encodeURIComponent(s)+"&body="+encodeURIComponent(b);a.target="_blank";document.body.appendChild(a);a.click();a.remove()}
 function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display="none"},2200)}
 
 function renderShelf(){$("shelf").innerHTML=books.slice(0,7).map(function(b,i){return '<div class="spine" style="background:'+color(b)+';height:'+(130+((i*37)%90))+'px">'+esc(b.t.slice(0,18))+'</div>'}).join("")}
@@ -212,23 +223,24 @@ $("q").addEventListener("input",renderGrid);$("sort").addEventListener("change",
 $("btnCart").onclick=function(){$("dCart").showModal()};$("closeCart").onclick=function(){$("dCart").close()};
 $("btnSell").onclick=$("btnSell2").onclick=function(){$("dSell").showModal()};
 $("cancelSell").onclick=function(){$("dSell").close()};
-$("checkout").onclick=function(){$("pixTotal").textContent=$("total").textContent;$("dCart").close();$("dPix").showModal()};
+$("checkout").onclick=function(){$("pixTotal").textContent=$("total").textContent;$("goStep").style.display="flex";$("pixStep").style.display="none";$("dCart").close();$("dPix").showModal()};
 $("closePix").onclick=function(){$("dPix").close()};
 $("copyPix").onclick=function(){var k=$("pixKey");k.select();try{navigator.clipboard.writeText(k.value).then(function(){toast("Chave copiada")},function(){document.execCommand("copy");toast("Chave copiada")})}catch(e){toast("Selecione e copie a chave")}};
-$("paid").onclick=function(){
+$("goPix").onclick=function(){
  var n=$("bName").value.trim(),c=$("bContact").value.trim();
  if(!n||!c){toast("Preencha seu nome e e-mail ou WhatsApp");return}
  var items=cart.map(function(id){return books.filter(function(b){return b.id===id})[0]}).filter(Boolean);
- var body="Pedido de "+n+"\nContato: "+c+"\n\n"+items.map(function(b){return "- "+b.t+" ("+brl(b.p)+")"}).join("\n")+"\n\nTotal: "+$("pixTotal").textContent+"\n\nAnexe o comprovante do Pix a este e-mail.";
- var a=document.createElement("a");
- a.href="mailto:nandonascimento122@gmail.com?subject="+encodeURIComponent("Pedido Estante")+"&body="+encodeURIComponent(body);
- a.target="_blank";document.body.appendChild(a);a.click();a.remove();
- cart=[];save();renderCart();$("dPix").close();toast("Envie o e-mail que abriu para concluir o pedido");
+ var rep=items.filter(function(b){return b.s}).map(function(b){return "- "+b.t+": repassar "+brl(b.p*COMISSAO)+" para "+b.s+" (Pix: "+b.k+")"});
+ var body="Pedido de "+n+"\nContato: "+c+"\n\n"+items.map(function(b){return "- "+b.t+" ("+brl(b.p)+")"}).join("\n")+"\n\nTotal: "+$("pixTotal").textContent+(rep.length?"\n\nREPASSE AOS VENDEDORES:\n"+rep.join("\n"):"")+"\n\nPedido aguardando pagamento. Depois do Pix, envie o comprovante respondendo a este e-mail.";
+ mail("Pedido Estante (aguardando pagamento)",body);
+ $("goStep").style.display="none";$("pixStep").style.display="block";toast("Envie o e-mail que abriu e faça o Pix");
 };
+$("paid").onclick=function(){cart=[];save();renderCart();$("dPix").close();toast("Obrigado! Responda o e-mail do pedido com o comprovante do Pix.")};
 $("fSell").addEventListener("submit",function(e){
  e.preventDefault();
- books.push({id:nextId+books.length+Math.floor(Math.random()*1000),t:$("t").value.trim(),a:$("a").value.trim(),c:$("c").value,p:parseFloat($("p").value)});
- save();$("fSell").reset();$("dSell").close();cat="Todos";all();toast("Ebook publicado na vitrine");
+ var t=$("t").value.trim();
+ mail("Publicar ebook: "+t,"Quero publicar na Estante.\n\nTítulo: "+t+"\nAutor: "+$("a").value.trim()+"\nCategoria: "+$("c").value+"\nPreço: "+brl(parseFloat($("p").value))+"\n\nVendedor: "+$("sn").value.trim()+"\nContato: "+$("sc").value.trim()+"\nChave Pix: "+$("sk").value.trim()+"\n\nO arquivo do ebook está anexado a este e-mail.");
+ $("fSell").reset();$("dSell").close();toast("Envie o e-mail que abriu, com o arquivo anexado");
 });
 all();
 </script>
