@@ -37,6 +37,21 @@ input,select{font-size:1rem;padding:10px 12px;border:1px solid var(--line);borde
 .cover{aspect-ratio:3/4;border-radius:6px 10px 10px 6px;padding:16px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;box-shadow:inset 8px 0 0 rgba(0,0,0,.18)}
 .cover b{font:800 1.25rem/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.01em}
 .cover span{font-size:.8rem;opacity:.9}
+.coverbtn{display:block;width:100%;padding:0;border:0;background:none;text-align:left;border-radius:6px 10px 10px 6px;cursor:zoom-in}
+.cimg{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px 10px 10px 6px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.rd{border-color:var(--line);padding:6px 12px;font-size:.88rem;align-self:flex-start}
+.strip{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:24px}
+.strip div{display:flex;flex-direction:column}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.28);border-radius:999px;padding:12px 18px}
+.msgs{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow:auto;margin:10px 0}
+.m{padding:8px 12px;border-radius:12px;max-width:90%;white-space:pre-wrap;font-size:.95rem;line-height:1.45}
+.m.u{align-self:flex-end;background:var(--acc);color:var(--acc-ink)}
+.m.b{align-self:flex-start;background:var(--bg);border:1px solid var(--line)}
+.cres{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.cres img{width:48px;height:48px;object-fit:cover;border-radius:6px}
+.cres div{flex:1;min-width:0;overflow-wrap:anywhere}
+.dl{padding:6px 12px;border:1px solid var(--ink);border-radius:8px;color:var(--ink);text-decoration:none;font:500 .9rem "Bricolage Grotesque",system-ui,sans-serif;white-space:nowrap}
+body{padding-bottom:70px}
 .book h3{margin:4px 0 0;font-size:1.05rem;line-height:1.25}
 .meta{color:var(--mute);font-size:.88rem}
 .buy{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
@@ -75,6 +90,10 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
   <div class="shelf" id="shelf" aria-hidden="true"></div>
 </section>
 
+<section class="strip">
+  <div><strong data-i="stripT">Conversor de fotos grátis</strong><span class="meta" data-i="stripP">Troque JPG, PNG e WebP e reduza o peso. A foto não sai do seu aparelho.</span></div>
+  <button class="pri" id="btnConv" data-i="convOpen">Abrir conversor</button>
+</section>
 <section>
   <div class="tools">
     <input id="q" type="search" placeholder="Buscar por título ou autor" data-ph="ph" aria-label="Buscar ebook">
@@ -151,16 +170,56 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
     <label for="at">Título</label><input id="at" required maxlength="80">
     <label for="aa">Autor</label><input id="aa" required maxlength="60">
     <label for="ac">Categoria</label>
-    <select id="ac"><option>Ficção</option><option>Negócios</option><option>Tecnologia</option><option>Saúde</option><option>Educação</option><option>Clássicos</option><option>Poesia</option></select>
+    <select id="ac"><option>Ficção</option><option>Negócios</option><option>Tecnologia</option><option>Saúde</option><option>Educação</option><option>Clássicos</option><option>Poesia</option><option>Religião</option></select>
     <label for="ap">Preço (R$)</label><input id="ap" type="number" min="1" step="0.01" required>
     <label for="as">Vendedor (deixe vazio se o livro é seu)</label><input id="as" maxlength="60">
     <label for="ak">Chave Pix do vendedor</label><input id="ak" maxlength="80">
+    <label for="ai">Capa (imagem, opcional)</label><input id="ai" type="file" accept="image/*">
     <div class="actions"><button class="pri" type="submit">Adicionar</button></div>
   </form>
   <h2 style="margin-top:20px;font-size:1.1rem">Novos ebooks</h2>
   <div id="aList"></div>
+  <h2 style="margin-top:20px;font-size:1.1rem">Trocar a capa de um livro</h2>
+  <label for="acBook">Livro</label><select id="acBook"></select>
+  <label for="aci">Imagem da capa</label><input id="aci" type="file" accept="image/*">
+  <div class="actions"><button id="acSave">Salvar capa</button></div>
+  <h2 style="margin-top:20px;font-size:1.1rem">Amostra de leitura (5 páginas)</h2>
+  <label for="asBook">Livro</label><select id="asBook"></select>
+  <label for="asTxt">Texto</label><textarea id="asTxt" rows="6" placeholder="Cole aqui o começo do livro. Só as 5 primeiras páginas aparecem para o leitor." style="width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)"></textarea>
+  <div class="actions"><button id="asDel">Remover amostra</button><button class="pri" id="asSave">Salvar amostra</button></div>
   <p class="meta">Depois de adicionar, baixe o site atualizado e suba o arquivo no Netlify.</p>
   <div class="actions"><button id="aClose">Fechar</button><button class="pri" id="aDown">Baixar site atualizado</button></div>
+</dialog>
+<dialog id="dCapa">
+  <div id="capaBox"></div>
+  <div class="actions"><button class="pri" id="capaClose">Fechar</button></div>
+</dialog>
+<dialog id="dRead">
+  <h2 id="rdTitle" style="font-size:1.15rem"></h2>
+  <div id="rdPage" style="white-space:pre-wrap;font-size:1.02rem;line-height:1.7;min-height:220px;max-height:55vh;overflow:auto"></div>
+  <p class="meta" id="rdEnd" style="display:none;margin:10px 0 0"></p>
+  <div class="actions" style="justify-content:space-between;align-items:center"><button id="rdPrev"></button><span id="rdNum" class="meta"></span><button id="rdNext"></button></div>
+  <div class="actions"><button id="rdClose"></button><button class="pri" id="rdBuy"></button></div>
+</dialog>
+<dialog id="dConv" style="width:min(520px,94vw)">
+  <h2 data-i="convT">Conversor de fotos</h2>
+  <label for="cf" data-i="convFiles">Fotos (até 10)</label><input id="cf" type="file" accept="image/*" multiple>
+  <label for="cfmt" data-i="convFmt">Converter para</label>
+  <select id="cfmt"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select>
+  <label for="cql"><span data-i="convQ">Qualidade</span>: <span id="cqv">80</span>%</label><input id="cql" type="range" min="10" max="100" value="80">
+  <label for="cw" data-i="convW">Largura máxima (px)</label>
+  <select id="cw"><option value="0" data-i="convOrig">Original</option><option>1920</option><option>1280</option><option>800</option><option>400</option></select>
+  <div class="actions"><button id="convClose" data-i="close">Fechar</button><button class="pri" id="convGo" data-i="convGo">Converter</button></div>
+  <div id="cres"></div>
+  <p class="meta" style="margin:10px 0 0" data-i="convPriv">A conversão acontece no seu aparelho. A foto não é enviada para nenhum servidor.</p>
+</dialog>
+<dialog id="dChat">
+  <h2 data-i="chatT">Assistente da loja</h2>
+  <div class="msgs" id="msgs" aria-live="polite"></div>
+  <div class="chips" id="sug" style="margin-bottom:10px"></div>
+  <form id="fChat" style="display:flex;gap:8px"><input id="cq" maxlength="300" autocomplete="off" placeholder="Escreva sua pergunta" data-ph="chatPh"><button class="pri" type="submit" data-i="chatSend">Enviar</button></form>
+  <p class="meta" style="margin:10px 0 0" data-i="chatPriv">Perguntas que o assistente não sabe responder podem ser enviadas a um serviço de IA online. Suas fotos nunca saem do aparelho.</p>
+  <div class="actions"><button id="chatClose" data-i="close">Fechar</button></div>
 </dialog>
 <dialog id="dSend">
   <h2 data-i="sendT">Enviar para a loja</h2>
@@ -170,18 +229,57 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
     <button class="pri" id="sendWa">WhatsApp</button>
   </div>
 </dialog>
+<button class="pri fab" id="btnChat">💬 <span data-i="chatBtn">Assistente</span></button>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 var COMISSAO=0.9,DONO="nandonascimento122@gmail.com",WA="5584994552915",pend=null;
 var LOC={pt:"pt-BR",en:"en-US",es:"es-ES"},lang="pt";
 var T={
-pt:{all:"Todos",buy:"Comprar",pd:"domínio público",none:"Nenhum ebook encontrado. Tente outra busca ou categoria.",cartEmpty:"Seu carrinho está vazio. Escolha um ebook para começar.",dup:"Este ebook já está no carrinho",added:"Adicionado ao carrinho",fillAll:"Preencha seu nome e e-mail ou WhatsApp",chooseSend:"Escolha como enviar o pedido e depois faça o Pix",chooseFile:"Escolha como enviar e mande o arquivo do ebook na conversa",thanks:"Obrigado! Mande o comprovante do Pix pelo mesmo canal do pedido.",copied:"Chave copiada",selCopy:"Selecione e copie a chave"},
-en:{all:"All",buy:"Buy",pd:"public domain",none:"No ebooks found. Try another search or category.",cartEmpty:"Your cart is empty. Pick an ebook to start.",dup:"This ebook is already in your cart",added:"Added to cart",fillAll:"Fill in your name and email or WhatsApp",chooseSend:"Choose how to send the order, then pay by Pix",chooseFile:"Choose how to send, then share the ebook file in the chat",thanks:"Thank you! Send the Pix receipt through the same channel as your order.",copied:"Key copied",selCopy:"Select and copy the key",
-"c_Ficção":"Fiction","c_Negócios":"Business","c_Tecnologia":"Technology","c_Saúde":"Health","c_Educação":"Education","c_Clássicos":"Classics","c_Poesia":"Poetry",
+pt:{all:"Todos",buy:"Comprar",pd:"domínio público",none:"Nenhum ebook encontrado. Tente outra busca ou categoria.",cartEmpty:"Seu carrinho está vazio. Escolha um ebook para começar.",dup:"Este ebook já está no carrinho",added:"Adicionado ao carrinho",fillAll:"Preencha seu nome e e-mail ou WhatsApp",chooseSend:"Escolha como enviar o pedido e depois faça o Pix",chooseFile:"Escolha como enviar e mande o arquivo do ebook na conversa",thanks:"Obrigado! Mande o comprovante do Pix pelo mesmo canal do pedido.",copied:"Chave copiada",selCopy:"Selecione e copie a chave",close:"Fechar",sample:"Ler amostra",prev:"Anterior",next:"Próxima",page:"Página",sampleEnd:"Fim da amostra. Compre para ler o livro completo.",
+a_hi:"Olá! Posso ajudar com o conversor de fotos, o pagamento por Pix, a entrega dos ebooks e como vender. O que você precisa?",
+a_conv:"O conversor é grátis. Toque em “Abrir conversor”, escolha as fotos, o formato (JPG, PNG ou WebP), a qualidade e a largura máxima, e toque em Converter. Tudo acontece no seu aparelho: a foto não é enviada para nenhum servidor. Para diminuir o peso, use WebP ou JPG com qualidade entre 60 e 80.",
+a_pix:"O pagamento é por Pix. Em “Finalizar compra” você informa nome e contato, envia o pedido à loja por WhatsApp ou Gmail e depois faz o Pix para a chave mostrada. Em seguida, mande o comprovante na mesma conversa.",
+a_ent:"A entrega é manual: depois que a loja confirma o seu Pix, o ebook é enviado para o WhatsApp ou e-mail que você informou no pedido.",
+a_sell:"Para vender, toque em “Vender ebook”, preencha os dados e a sua chave Pix e envie a proposta à loja por WhatsApp ou Gmail, junto com o arquivo do ebook. Se for aprovado, o livro entra na vitrine e você recebe 90% de cada venda por Pix.",
+a_sample:"Os livros com o botão “Ler amostra” têm até 5 páginas para você ler antes de comprar.",
+a_lang:"Use o seletor PT / EN / ES no topo da página para trocar o idioma.",
+a_price:"O preço de cada ebook aparece no card do livro.",
+a_contact:"Fale com a loja pelo WhatsApp {wa} ou pelo Gmail {mail}.",
+chatNo:"Não consegui responder agora. Fale com a loja pelo WhatsApp {wa} ou pelo Gmail {mail}.",
+chatAI:"resposta da IA, pode conter erros",convNone:"Escolha pelo menos uma foto",convErr:"não foi possível abrir este arquivo",convDl:"Baixar",
+sug1:"Como converter uma foto?",sug2:"Como pago?",sug3:"Como recebo o ebook?",sug4:"Quero vender um ebook"},
+en:{all:"All",buy:"Buy",pd:"public domain",none:"No ebooks found. Try another search or category.",cartEmpty:"Your cart is empty. Pick an ebook to start.",dup:"This ebook is already in your cart",added:"Added to cart",fillAll:"Fill in your name and email or WhatsApp",chooseSend:"Choose how to send the order, then pay by Pix",chooseFile:"Choose how to send, then share the ebook file in the chat",thanks:"Thank you! Send the Pix receipt through the same channel as your order.",copied:"Key copied",selCopy:"Select and copy the key",close:"Close",sample:"Read sample",prev:"Previous",next:"Next",page:"Page",sampleEnd:"End of sample. Buy to read the full book.",
+a_hi:"Hi! I can help with the photo converter, paying by Pix, how ebooks are delivered, and how to sell. What do you need?",
+a_conv:"The converter is free. Tap “Open converter”, pick your photos, the format (JPG, PNG or WebP), the quality and the max width, then tap Convert. It all happens on your device: your photo is not sent to any server. To shrink the file, use WebP or JPG at 60 to 80 quality.",
+a_pix:"Payment is by Pix. At “Checkout” you enter your name and contact, send the order to the store by WhatsApp or Gmail, and then pay by Pix to the key shown. Then send the receipt in the same chat.",
+a_ent:"Delivery is manual: once the store confirms your Pix, the ebook is sent to the WhatsApp or email you gave in the order.",
+a_sell:"To sell, tap “Sell an ebook”, fill in your details and Pix key, and send the proposal to the store by WhatsApp or Gmail with the ebook file. If approved, the book goes on the shelf and you get 90% of each sale by Pix.",
+a_sample:"Books with a “Read sample” button have up to 5 pages you can read before buying.",
+a_lang:"Use the PT / EN / ES selector at the top of the page to change the language.",
+a_price:"Each ebook's price is shown on its card.",
+a_contact:"Contact the store on WhatsApp {wa} or Gmail {mail}.",
+chatNo:"I couldn't answer right now. Contact the store on WhatsApp {wa} or Gmail {mail}.",
+chatAI:"AI answer, may contain errors",convNone:"Choose at least one photo",convErr:"could not open this file",convDl:"Download",
+sug1:"How do I convert a photo?",sug2:"How do I pay?",sug3:"How do I receive the ebook?",sug4:"I want to sell an ebook",
+stripT:"Free photo converter",stripP:"Switch between JPG, PNG and WebP and shrink file size. Your photo never leaves your device.",convOpen:"Open converter",convT:"Photo converter",convFiles:"Photos (up to 10)",convFmt:"Convert to",convQ:"Quality",convW:"Max width (px)",convOrig:"Original",convGo:"Convert",convPriv:"Conversion happens on your device. Your photo is not sent to any server.",chatBtn:"Assistant",chatT:"Store assistant",chatPh:"Type your question",chatSend:"Send",chatPriv:"Questions the assistant can't answer may be sent to an online AI service. Your photos never leave your device.",
+"c_Ficção":"Fiction","c_Negócios":"Business","c_Tecnologia":"Technology","c_Saúde":"Health","c_Educação":"Education","c_Clássicos":"Classics","c_Poesia":"Poetry","c_Religião":"Religion",
 sell:"Sell an ebook",cart:"Cart",h1:"Ebooks from those who write, for those who read.",hp:"Buy digital reading at a fair price, or publish your own ebook and get 90% of every sale by Pix, paid out by the store.",sellHero:"Publish my ebook",ph:"Search by title or author",oRel:"Featured",oAsc:"Lowest price",oDesc:"Highest price",cartT:"Your cart",total:"Total",keep:"Keep shopping",checkout:"Checkout",sellT:"Publish an ebook",lTitle:"Title",lAuthor:"Author",lCat:"Category",lPrice:"Price (R$)",lName:"Your name",lContact:"Your email or WhatsApp",lPix:"Your Pix key (to get paid)",sellNote:"When you send, you choose WhatsApp or Gmail. Send the ebook file (PDF or EPUB) in the same chat. You get 90% of each sale by Pix.",cancel:"Cancel",sellSubmit:"Publish",pixT:"Pay with Pix",pixIntro:"Fill in your details. Then send the order and pay by Pix.",lValue:"Amount",back:"Back",goPix:"Continue to Pix",lKey:"Pix key (email)",pixNote:"Send the order to the store (WhatsApp or Gmail), then pay by Pix.",copy:"Copy key",paid:"I've paid",sendT:"Send to the store",sendP:"Choose how to send. The message is ready to go.",foot:"Payments by Pix to the store's key. Confirmation is manual."},
-es:{all:"Todos",buy:"Comprar",pd:"dominio público",none:"No se encontraron ebooks. Prueba otra búsqueda o categoría.",cartEmpty:"Tu carrito está vacío. Elige un ebook para empezar.",dup:"Este ebook ya está en el carrito",added:"Añadido al carrito",fillAll:"Escribe tu nombre y tu correo o WhatsApp",chooseSend:"Elige cómo enviar el pedido y luego paga con Pix",chooseFile:"Elige cómo enviar y comparte el archivo del ebook en el chat",thanks:"¡Gracias! Envía el comprobante del Pix por el mismo canal del pedido.",copied:"Clave copiada",selCopy:"Selecciona y copia la clave",
-"c_Ficção":"Ficción","c_Negócios":"Negocios","c_Tecnologia":"Tecnología","c_Saúde":"Salud","c_Educação":"Educación","c_Clássicos":"Clásicos","c_Poesia":"Poesía",
+es:{all:"Todos",buy:"Comprar",pd:"dominio público",none:"No se encontraron ebooks. Prueba otra búsqueda o categoría.",cartEmpty:"Tu carrito está vacío. Elige un ebook para empezar.",dup:"Este ebook ya está en el carrito",added:"Añadido al carrito",fillAll:"Escribe tu nombre y tu correo o WhatsApp",chooseSend:"Elige cómo enviar el pedido y luego paga con Pix",chooseFile:"Elige cómo enviar y comparte el archivo del ebook en el chat",thanks:"¡Gracias! Envía el comprobante del Pix por el mismo canal del pedido.",copied:"Clave copiada",selCopy:"Selecciona y copia la clave",close:"Cerrar",sample:"Leer muestra",prev:"Anterior",next:"Siguiente",page:"Página",sampleEnd:"Fin de la muestra. Compra para leer el libro completo.",
+a_hi:"¡Hola! Puedo ayudarte con el conversor de fotos, el pago por Pix, la entrega de los ebooks y cómo vender. ¿Qué necesitas?",
+a_conv:"El conversor es gratis. Toca “Abrir conversor”, elige las fotos, el formato (JPG, PNG o WebP), la calidad y el ancho máximo, y toca Convertir. Todo ocurre en tu dispositivo: la foto no se envía a ningún servidor. Para reducir el peso, usa WebP o JPG con calidad entre 60 y 80.",
+a_pix:"El pago es por Pix. En “Finalizar compra” indicas nombre y contacto, envías el pedido a la tienda por WhatsApp o Gmail y luego pagas por Pix a la clave que se muestra. Después envía el comprobante en la misma conversación.",
+a_ent:"La entrega es manual: cuando la tienda confirma tu Pix, el ebook se envía al WhatsApp o correo que indicaste en el pedido.",
+a_sell:"Para vender, toca “Vender ebook”, completa tus datos y tu clave Pix y envía la propuesta a la tienda por WhatsApp o Gmail junto con el archivo del ebook. Si se aprueba, el libro entra en la vitrina y recibes el 90% de cada venta por Pix.",
+a_sample:"Los libros con el botón “Leer muestra” tienen hasta 5 páginas para leer antes de comprar.",
+a_lang:"Usa el selector PT / EN / ES en la parte superior de la página para cambiar el idioma.",
+a_price:"El precio de cada ebook aparece en su tarjeta.",
+a_contact:"Habla con la tienda por WhatsApp {wa} o por Gmail {mail}.",
+chatNo:"No pude responder ahora. Habla con la tienda por WhatsApp {wa} o por Gmail {mail}.",
+chatAI:"respuesta de la IA, puede contener errores",convNone:"Elige al menos una foto",convErr:"no se pudo abrir este archivo",convDl:"Descargar",
+sug1:"¿Cómo convierto una foto?",sug2:"¿Cómo pago?",sug3:"¿Cómo recibo el ebook?",sug4:"Quiero vender un ebook",
+stripT:"Conversor de fotos gratis",stripP:"Cambia entre JPG, PNG y WebP y reduce el peso. La foto no sale de tu dispositivo.",convOpen:"Abrir conversor",convT:"Conversor de fotos",convFiles:"Fotos (hasta 10)",convFmt:"Convertir a",convQ:"Calidad",convW:"Ancho máximo (px)",convOrig:"Original",convGo:"Convertir",convPriv:"La conversión ocurre en tu dispositivo. La foto no se envía a ningún servidor.",chatBtn:"Asistente",chatT:"Asistente de la tienda",chatPh:"Escribe tu pregunta",chatSend:"Enviar",chatPriv:"Las preguntas que el asistente no sabe responder pueden enviarse a un servicio de IA en línea. Tus fotos nunca salen de tu dispositivo.",
+"c_Ficção":"Ficción","c_Negócios":"Negocios","c_Tecnologia":"Tecnología","c_Saúde":"Salud","c_Educação":"Educación","c_Clássicos":"Clásicos","c_Poesia":"Poesía","c_Religião":"Religión",
 sell:"Vender ebook",cart:"Carrito",h1:"Ebooks de quien escribe, para quien lee.",hp:"Compra lectura digital a buen precio o publica tu propio ebook y recibe el 90% de cada venta por Pix, pagado por la tienda.",sellHero:"Publicar mi ebook",ph:"Buscar por título o autor",oRel:"Destacados",oAsc:"Menor precio",oDesc:"Mayor precio",cartT:"Tu carrito",total:"Total",keep:"Seguir comprando",checkout:"Finalizar compra",sellT:"Publicar un ebook",lTitle:"Título",lAuthor:"Autor",lCat:"Categoría",lPrice:"Precio (R$)",lName:"Tu nombre",lContact:"Tu correo o WhatsApp",lPix:"Tu clave Pix (para recibir)",sellNote:"Al enviar, eliges WhatsApp o Gmail. Envía el archivo del ebook (PDF o EPUB) en la misma conversación. Recibes el 90% de cada venta por Pix.",cancel:"Cancelar",sellSubmit:"Publicar",pixT:"Pagar con Pix",pixIntro:"Completa tus datos. Luego envía el pedido y paga con Pix.",lValue:"Valor",back:"Volver",goPix:"Continuar al Pix",lKey:"Clave Pix (correo)",pixNote:"Envía el pedido a la tienda (WhatsApp o Gmail) y luego paga con Pix.",copy:"Copiar clave",paid:"Ya pagué",sendT:"Enviar a la tienda",sendP:"Elige cómo enviar. El mensaje ya va listo.",foot:"Pagos por Pix a la clave de la tienda. La confirmación es manual."}
 };
 function tx(k){return (T[lang]&&T[lang][k])||T.pt[k]||k}
@@ -191,10 +289,22 @@ function applyLang(){
  document.documentElement.lang=LOC[lang];
  document.querySelectorAll("[data-i]").forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.textContent;el.textContent=lang==="pt"?el.dataset.pt:(T[lang][el.dataset.i]||el.dataset.pt)});
  document.querySelectorAll("[data-ph]").forEach(function(el){if(el.dataset.pt===undefined)el.dataset.pt=el.placeholder;el.placeholder=lang==="pt"?el.dataset.pt:(T[lang][el.dataset.ph]||el.dataset.pt)});
- var cv=$("c").value;$("c").innerHTML=["Ficção","Negócios","Tecnologia","Saúde","Educação"].map(function(c){return '<option value="'+c+'">'+esc(ct(c))+'</option>'}).join("");if(cv)$("c").value=cv;
- $("lang").value=lang;
+ var cv=$("c").value;$("c").innerHTML=["Ficção","Negócios","Tecnologia","Saúde","Educação","Religião"].map(function(c){return '<option value="'+c+'">'+esc(ct(c))+'</option>'}).join("");if(cv)$("c").value=cv;
+ $("lang").value=lang;if(typeof sugs==="function")sugs();
 }
 function setLang(l){lang=l;try{localStorage.setItem("estante_lang",l)}catch(e){}applyLang();all()}
+var localCapas={};
+try{localCapas=JSON.parse(localStorage.getItem("estante_capas")||"{}")||{}}catch(e){localCapas={}}
+function capaDe(id){return localCapas[id]||capas[id]}
+function capaSave(){try{localStorage.setItem("estante_capas",JSON.stringify(localCapas))}catch(e){toast("Sem espaço no navegador. Baixe o site atualizado e remova capas antigas.")}}
+function lerImg(file,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var w=Math.min(360,im.width),hh=Math.round(im.height*w/im.width),c=document.createElement("canvas");c.width=w;c.height=hh;c.getContext("2d").drawImage(im,0,0,w,hh);cb(c.toDataURL("image/jpeg",0.8))};im.src=r.result};r.readAsDataURL(file)}
+function capaHtml(b){var im=capaDe(b.id),inner=im?'<img class="cimg" src="'+im+'" alt="">':'<div class="cover" style="background:'+color(b)+'"><b>'+esc(b.t)+'</b><span>'+esc(b.a)+'</span></div>';return '<button class="coverbtn" data-capa="'+b.id+'" aria-label="'+esc(b.t)+'">'+inner+'</button>'}
+var localAm={};
+try{localAm=JSON.parse(localStorage.getItem("estante_amostras")||"{}")||{}}catch(e){localAm={}}
+function amDe(id){var v=localAm[id];if(v===undefined)v=amostras[id];return v}
+function amSave(){try{localStorage.setItem("estante_amostras",JSON.stringify(localAm))}catch(e){toast("Sem espaço no navegador.")}}
+function paginar(txt){var out=[],s=String(txt).replace(/\r/g,"").trim();while(s.length&&out.length<5){if(s.length<=1100){out.push(s);s="";break}var i=s.lastIndexOf("\n",1100);if(i<500)i=s.lastIndexOf(" ",1100);if(i<500)i=1100;out.push(s.slice(0,i).trim());s=s.slice(i).trim()}return out}
+var rd=null;
 var COLORS=["#0f766e","#b4453a","#3b4fa0","#7a4a9e","#8a6a12","#1f6b3a","#a1366b","#2b5f86"];
 var seed=[
  {id:1,t:"Como Escrever Sem Travar",a:"Marina Duarte",c:"Educação",p:24.9},
@@ -238,6 +348,8 @@ var seed=[
  {id:39,t:"As Primaveras",a:"Casimiro de Abreu",c:"Poesia",p:4.9},
  {id:40,t:"A Alma Encantadora das Ruas",a:"João do Rio",c:"Clássicos",p:5.9}
 ];
+var capas={};
+var amostras={"1": "[Amostra de demonstração]\n\nCapítulo 1 — O medo da primeira frase\n\nToda pessoa que já tentou escrever conhece a cena: o cursor piscando, a xícara de café esfriando, a certeza de que a primeira frase precisa ser perfeita. Ela não precisa. Ela precisa existir.\n\nNeste capítulo você vai aprender o método dos dez minutos. A regra é simples: ajuste um cronômetro, escreva sem parar e sem apagar nada. Se não souber o que dizer, escreva exatamente isso: não sei o que dizer. Em algum momento a mão encontra o caminho.\n\nO travamento quase nunca é falta de ideias. Na maior parte das vezes é excesso de crítica chegando cedo demais. O escritor e o revisor moram na mesma cabeça, mas trabalham em horários diferentes. Primeiro escreve-se; só depois se corrige.\n\nExercício 1: escolha um assunto qualquer, como o caminho de casa até o trabalho, e escreva por dez minutos. Não releia. Guarde o texto numa pasta e só volte a ele amanhã.\n\nCapítulo 2 — Rascunhos feios são bem-vindos\n\nUm rascunho ruim pode ser consertado. Uma página em branco, não. Pense no rascunho como um bloco de argila: ele só ganha forma depois que existe massa para moldar. Quem espera a frase perfeita antes de começar passa horas olhando para o nada e termina o dia com menos do que quem escreveu dez linhas tortas.\n\nUma boa prática é separar o trabalho em duas etapas com horários diferentes. De manhã, você só produz texto, sem nenhuma pressão de qualidade. À tarde, você lê o que fez com olhar de editor, cortando o que sobrou e reforçando o que ficou fraco.\n\nExercício 2: pegue o texto de ontem e marque apenas três frases que merecem continuar. O resto pode ficar de lado. Você acabou de descobrir sobre o que realmente queria escrever.\n\nCapítulo 3 — Pequenas metas, grandes livros\n\nNenhum livro nasce de uma sessão heroica. Ele nasce de páginas pequenas, repetidas com paciência. Trezentas palavras por dia, durante cem dias, são trinta mil palavras: quase um livro curto. O segredo não é a velocidade, é a constância.\n\nDefina uma meta tão pequena que seja difícil falhar, e comemore quando cumprir. Com o tempo, o hábito cresce sozinho, e o dia em que você escrever mais do que o combinado será apenas um bônus.", "3": "[Amostra de demonstração]\n\nCapítulo 1\n\nA estrada de terra terminava onde começava o vento. Marta desceu do ônibus com uma mala pequena e a chave que o tio lhe deixara, pesada como uma pedra no bolso do casaco.\n\nDiante dela, no alto da falésia, o farol se erguia branco e rachado, e ao lado dele a casa de janelas fechadas parecia esperá-la havia muito tempo. O mar batia lá embaixo com um ritmo que ela já conhecia, embora nunca tivesse estado ali.\n\nQuando girou a chave, a porta cedeu com um suspiro. Dentro, o cheiro de sal e de papel antigo; sobre a mesa, uma carta com o seu nome."};
 var books=seed.slice(),cart=[],cat="Todos",nextId=100;
 try{var saved=JSON.parse(localStorage.getItem("estante_books")||"[]");if(Array.isArray(saved))books=seed.concat(saved);
 var sc=JSON.parse(localStorage.getItem("estante_cart")||"[]");if(Array.isArray(sc))cart=sc;}catch(e){}
@@ -251,13 +363,13 @@ function go(u){var a=document.createElement("a");a.href=u;a.target="_blank";a.re
 function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display="none"},2200)}
 
 function renderShelf(){$("shelf").innerHTML=books.slice(0,7).map(function(b,i){return '<div class="spine" style="background:'+color(b)+';height:'+(130+((i*37)%90))+'px">'+esc(b.t.slice(0,18))+'</div>'}).join("")}
-function renderChips(){var cats=["Todos"].concat(books.map(function(b){return b.c}).filter(function(v,i,a){return a.indexOf(v)===i}));
+function renderChips(){var cats=["Todos"].concat(books.map(function(b){return b.c}).filter(function(v,i,a){return a.indexOf(v)===i}));if(cats.indexOf("Religião")<0)cats.push("Religião");
 $("chips").innerHTML=cats.map(function(c){return '<button class="chip" aria-pressed="'+(c===cat)+'" data-c="'+esc(c)+'">'+esc(c==="Todos"?tx("all"):ct(c))+'</button>'}).join("")}
 function renderGrid(){
  var q=$("q").value.trim().toLowerCase(),s=$("sort").value;
  var list=books.filter(function(b){return (cat==="Todos"||b.c===cat)&&(b.t+" "+b.a).toLowerCase().indexOf(q)>-1});
  if(s==="asc")list.sort(function(x,y){return x.p-y.p});if(s==="desc")list.sort(function(x,y){return y.p-x.p});
- $("grid").innerHTML=list.length?list.map(function(b){return '<article class="book"><div class="cover" style="background:'+color(b)+'"><b>'+esc(b.t)+'</b><span>'+esc(b.a)+'</span></div><h3>'+esc(b.t)+'</h3><div class="meta">'+esc(b.a)+' · '+esc(ct(b.c))+(b.id>8&&b.id<100?' · '+tx("pd"):'')+'</div><div class="buy"><span class="price">'+brl(b.p)+'</span><button class="pri" data-add="'+b.id+'">'+tx("buy")+'</button></div></article>'}).join(""):'<p class="empty">'+tx("none")+'</p>';
+ $("grid").innerHTML=list.length?list.map(function(b){return '<article class="book">'+capaHtml(b)+'<h3>'+esc(b.t)+'</h3><div class="meta">'+esc(b.a)+' · '+esc(ct(b.c))+(b.id>8&&b.id<100?' · '+tx("pd"):'')+'</div>'+(amDe(b.id)?'<button class="rd" data-read="'+b.id+'">'+tx("sample")+'</button>':'')+'<div class="buy"><span class="price">'+brl(b.p)+'</span><button class="pri" data-add="'+b.id+'">'+tx("buy")+'</button></div></article>'}).join(""):'<p class="empty">'+tx("none")+'</p>';
 }
 function renderCart(){
  var items=cart.map(function(id){return books.filter(function(b){return b.id===id})[0]}).filter(Boolean);
@@ -303,7 +415,7 @@ function admSave(){try{localStorage.setItem("estante_admin",JSON.stringify(adm))
 function novos(){return adm.filter(function(b){return seed.every(function(s){return s.id!==b.id})})}
 function sync(){books=seed.concat(novos())}
 function admList(){var l=novos();$("aList").innerHTML=l.length?l.map(function(b){return '<div class="row"><span>'+esc(b.t)+'</span><button data-ar="'+b.id+'" aria-label="Remover '+esc(b.t)+'">×</button></div>'}).join(""):'<p class="empty">Nenhum ebook novo ainda.</p>'}
-function openAdm(){admList();$("dAdmin").showModal()}
+function openAdm(){admList();$("acBook").innerHTML=books.map(function(b){return '<option value="'+b.id+'">'+esc(b.t)+'</option>'}).join("");$("asBook").innerHTML=$("acBook").innerHTML;$("dAdmin").showModal()}
 var SENHA="7";
 function pedeSenha(){$("pw").value="";$("dPass").showModal()}
 if(location.hash==="#admin")pedeSenha();
@@ -317,18 +429,66 @@ $("fAdmin").addEventListener("submit",function(e){
  var mx=0;seed.concat(adm).forEach(function(b){if(b.id>mx)mx=b.id});
  var o={id:mx+1,t:$("at").value.trim(),a:$("aa").value.trim(),c:$("ac").value,p:parseFloat($("ap").value)};
  var s=$("as").value.trim();if(s){o.s=s;o.k=$("ak").value.trim()}
- adm.push(o);admSave();sync();all();admList();$("fAdmin").reset();toast("Adicionado. Baixe o site atualizado para publicar.");
+ adm.push(o);if(pendCapa){localCapas[o.id]=pendCapa;capaSave()}pendCapa=null;admSave();sync();all();admList();$("fAdmin").reset();toast("Adicionado. Baixe o site atualizado para publicar.");
 });
 $("aList").addEventListener("click",function(e){var id=+e.target.dataset.ar;if(id){adm=adm.filter(function(b){return b.id!==id});admSave();sync();all();admList()}});
+var pendCapa=null;
+$("ai").addEventListener("change",function(){pendCapa=null;var f=this.files[0];if(f)lerImg(f,function(d){pendCapa=d})});
+$("acSave").onclick=function(){var f=$("aci").files[0];if(!f){toast("Escolha uma imagem");return}lerImg(f,function(d){localCapas[$("acBook").value]=d;capaSave();all();$("aci").value="";toast("Capa salva. Baixe o site atualizado para publicar.")})};
+document.addEventListener("click",function(e){var c=e.target.closest&&e.target.closest("[data-capa]");if(!c)return;var b=books.filter(function(x){return x.id===+c.dataset.capa})[0];if(!b)return;var im=capaDe(b.id);$("capaBox").innerHTML=(im?'<img src="'+im+'" alt="" style="width:100%;border-radius:8px;display:block">':'<div class="cover" style="background:'+color(b)+'"><b style="font-size:1.8rem">'+esc(b.t)+'</b><span>'+esc(b.a)+'</span></div>')+'<h3 style="margin:12px 0 0">'+esc(b.t)+'</h3><div class="meta">'+esc(b.a)+'</div>';$("capaClose").textContent=tx("close");$("dCapa").showModal()});
+$("capaClose").onclick=function(){$("dCapa").close()};
+function rdShow(){var r=rd,last=r.i===r.pages.length-1;$("rdPage").textContent=r.pages[r.i];$("rdNum").textContent=tx("page")+" "+(r.i+1)+"/"+r.pages.length;$("rdPrev").disabled=r.i===0;$("rdNext").disabled=last;$("rdEnd").style.display=last?"block":"none";$("rdPage").scrollTop=0}
+document.addEventListener("click",function(e){var c=e.target.closest&&e.target.closest("[data-read]");if(!c)return;var b=books.filter(function(x){return x.id===+c.dataset.read})[0];if(!b)return;var pg=paginar(amDe(b.id)||"");if(!pg.length)return;rd={pages:pg,i:0};$("rdTitle").textContent=b.t;$("rdEnd").textContent=tx("sampleEnd");$("rdPrev").textContent=tx("prev");$("rdNext").textContent=tx("next");$("rdClose").textContent=tx("close");$("rdBuy").textContent=tx("buy")+" "+brl(b.p);$("rdBuy").dataset.add=b.id;rdShow();$("dRead").showModal()});
+$("rdPrev").onclick=function(){if(rd.i>0){rd.i--;rdShow()}};
+$("rdNext").onclick=function(){if(rd.i<rd.pages.length-1){rd.i++;rdShow()}};
+$("rdClose").onclick=function(){$("dRead").close()};
+$("asSave").onclick=function(){var v=$("asTxt").value.trim();if(!v){toast("Cole o texto da amostra");return}localAm[$("asBook").value]=paginar(v).join("\n\n");amSave();all();$("asTxt").value="";toast("Amostra salva. Baixe o site atualizado para publicar.")};
+$("asDel").onclick=function(){localAm[$("asBook").value]="";amSave();all();toast("Amostra removida")};
 $("aDown").onclick=function(){
  fetch(location.href.split("#")[0]).then(function(r){return r.text()}).catch(function(){return "<!DOCTYPE html>\n"+document.documentElement.outerHTML}).then(function(src){
   var lista=seed.concat(novos()).map(function(b){return " "+JSON.stringify(b)}).join(",\n");
   src=src.replace(/var seed=\[[\s\S]*?\n\];/,function(){return "var seed=[\n"+lista+"\n];"});
+  src=src.replace(/var capas=\{.*\};/,function(){return "var capas="+JSON.stringify(Object.assign({},capas,localCapas))+";"});
+  src=src.replace(/var amostras=\{.*\};/,function(){return "var amostras="+JSON.stringify(Object.assign({},amostras,localAm))+";"});
   var u=URL.createObjectURL(new Blob([src],{type:"text/html"}));
   var a=document.createElement("a");a.href=u;a.download="index.html";document.body.appendChild(a);a.click();a.remove();
   toast("Arquivo index.html baixado. Suba no Netlify.");
  });
 };
+function fmtB(n){return n>1048576?(n/1048576).toFixed(2)+" MB":Math.max(1,Math.round(n/1024))+" KB"}
+function conv(file,fmt,q,mw,cb){var url=URL.createObjectURL(file),im=new Image();im.onload=function(){var w=im.naturalWidth,hh=im.naturalHeight;if(mw&&w>mw){hh=Math.round(hh*mw/w);w=mw}var c=document.createElement("canvas");c.width=w;c.height=hh;var x=c.getContext("2d");if(fmt==="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,w,hh)}x.drawImage(im,0,0,w,hh);c.toBlob(function(bl){URL.revokeObjectURL(url);cb(bl)},fmt,q)};im.onerror=function(){URL.revokeObjectURL(url);cb(null)};im.src=url}
+$("btnConv").onclick=function(){$("dConv").showModal()};
+$("convClose").onclick=function(){$("dConv").close()};
+$("cql").oninput=function(){$("cqv").textContent=this.value};
+$("convGo").onclick=function(){
+ var fs=Array.prototype.slice.call($("cf").files).slice(0,10);
+ if(!fs.length){toast(tx("convNone"));return}
+ var box=$("cres");box.innerHTML="";
+ var fm=$("cfmt").value,q=$("cql").value/100,mw=+$("cw").value;
+ fs.forEach(function(f){conv(f,fm,q,mw,function(bl){
+  var row=document.createElement("div");row.className="cres";
+  if(!bl){row.textContent=f.name+": "+tx("convErr");box.appendChild(row);return}
+  var ext=bl.type==="image/jpeg"?"jpg":bl.type==="image/webp"?"webp":"png";
+  var nm=f.name.replace(/\.[^.]+$/,"")+"."+ext,u=URL.createObjectURL(bl),pc=Math.round((1-bl.size/f.size)*100);
+  row.innerHTML='<img src="'+u+'" alt=""><div><b>'+esc(nm)+'</b><br><span class="meta">'+fmtB(f.size)+" → "+fmtB(bl.size)+" ("+(pc>=0?"-":"+")+Math.abs(pc)+"%)</span></div>";
+  var a=document.createElement("a");a.href=u;a.download=nm;a.className="dl";a.textContent=tx("convDl");row.appendChild(a);box.appendChild(row)
+ })})
+};
+var SYS="Você é o assistente da loja de ebooks Estante. Responda curto e no mesmo idioma do cliente. Fatos: o pagamento é por Pix e a confirmação é manual; o ebook é entregue por WhatsApp ou Gmail depois que a loja confirma o Pix; a loja tem um conversor de fotos gratuito (JPG, PNG, WebP) que roda no aparelho, sem enviar a foto a servidor; vendedores recebem 90% por Pix. Nunca invente preços, prazos ou regras. Para pedidos específicos, mande o cliente falar no WhatsApp da loja.";
+var INT=[["contact",["contato","whatsapp","gmail","email","falar com","contact","atendente","humano","human","telefone","hablar"]],["pix",["pix","pagar","pago","pagamento","pay","payment","comprovante","comprobante"]],["conv",["conver","convier","format","jpg","png","webp","foto","imagem","image","photo","comprim","reduz","resize","tamanho","peso","size","compress"]],["ent",["entreg","receb","recib","arquivo","archivo","baixar","download","deliver","receive"]],["sell",["vend","publicar","repasse","seller","sell","publish"]],["sample",["amostra","sample","muestra","paginas","pages"]],["lang",["idioma","language","ingles","english","espanol","spanish","portugues"]],["price",["preco","valor","quanto","custa","price","cost","precio","cuanto","how much"]]];
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function fill(s){return s.replace("{wa}","+"+WA.slice(0,2)+" "+WA.slice(2,4)+" "+WA.slice(4,9)+"-"+WA.slice(9)).replace("{mail}",DONO)}
+function local(q){var n=norm(q);if(/^(oi|ola|hello|hi|hola|bom dia|boa tarde|boa noite|buenas)\b/.test(n))return tx("a_hi");for(var i=0;i<INT.length;i++)for(var j=0;j<INT[i][1].length;j++)if(n.indexOf(INT[i][1][j])>-1)return fill(tx("a_"+INT[i][0]));return null}
+function addMsg(w,s){var d=document.createElement("div");d.className="m "+w;d.textContent=s;$("msgs").appendChild(d);$("msgs").scrollTop=1e6;return d}
+function ia(q,cb){var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},12000);
+ fetch("https://text.pollinations.ai/openai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"openai",messages:[{role:"system",content:SYS},{role:"user",content:q}]}),signal:ctl.signal})
+ .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){clearTimeout(tm);var m=j&&j.choices&&j.choices[0]&&j.choices[0].message;cb(m&&m.content?String(m.content).slice(0,900):null)}).catch(function(){clearTimeout(tm);cb(null)})}
+function ask(q){q=q.trim();if(!q)return;addMsg("u",q);var r=local(q);if(r){addMsg("b",r);return}var w=addMsg("b","…");ia(q,function(a){w.textContent=a?a+"\n\n("+tx("chatAI")+")":fill(tx("chatNo"))})}
+function sugs(){$("sug").innerHTML=["sug1","sug2","sug3","sug4"].map(function(k){return '<button class="chip" type="button" data-sug="'+k+'">'+esc(tx(k))+'</button>'}).join("")}
+$("sug").addEventListener("click",function(e){var k=e.target.dataset&&e.target.dataset.sug;if(k)ask(tx(k))});
+$("btnChat").onclick=function(){if(!$("msgs").children.length)addMsg("b",tx("a_hi"));sugs();$("dChat").showModal()};
+$("chatClose").onclick=function(){$("dChat").close()};
+$("fChat").addEventListener("submit",function(e){e.preventDefault();var v=$("cq").value;$("cq").value="";ask(v)});
 $("lang").onchange=function(){setLang(this.value)};
 $("sendWa").onclick=function(){if(!pend)return;go("https://wa.me/"+WA+"?text="+encodeURIComponent(pend.s+"\n\n"+pend.b));$("dSend").close()};
 $("sendMail").onclick=function(){if(!pend)return;go("mailto:"+DONO+"?subject="+encodeURIComponent(pend.s)+"&body="+encodeURIComponent(pend.b));$("dSend").close()};
