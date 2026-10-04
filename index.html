@@ -187,7 +187,10 @@ footer{border-top:1px solid var(--line);padding:22px 0;color:var(--mute);font-si
   <label for="asBook">Livro</label><select id="asBook"></select>
   <label for="asTxt">Texto</label><textarea id="asTxt" rows="6" placeholder="Cole aqui o começo do livro. Só as 5 primeiras páginas aparecem para o leitor." style="width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)"></textarea>
   <div class="actions"><button id="asDel">Remover amostra</button><button class="pri" id="asSave">Salvar amostra</button></div>
-  <p class="meta">Depois de adicionar, baixe o site atualizado e suba o arquivo no Netlify.</p>
+  <h2 style="margin-top:20px;font-size:1.1rem">Endereço da IA (Worker)</h2>
+  <label for="aiUrl">URL do Worker da Cloudflare</label><input id="aiUrl" placeholder="https://nome.usuario.workers.dev" maxlength="200">
+  <div class="actions"><button id="aiSave">Salvar endereço</button></div>
+  <p class="meta">Depois de mudar algo, baixe o site atualizado e suba o arquivo no seu site (GitHub ou Netlify).</p>
   <div class="actions"><button id="aClose">Fechar</button><button class="pri" id="aDown">Baixar site atualizado</button></div>
 </dialog>
 <dialog id="dCapa">
@@ -248,7 +251,7 @@ a_price:"O preço de cada ebook aparece no card do livro.",
 a_contact:"Fale com a loja pelo WhatsApp {wa} ou pelo Gmail {mail}.",
 chatNo:"Não consegui responder agora. Fale com a loja pelo WhatsApp {wa} ou pelo Gmail {mail}.",
 chatAI:"resposta da IA, pode conter erros",convNone:"Escolha pelo menos uma foto",convErr:"não foi possível abrir este arquivo",convDl:"Baixar",
-sug1:"Como converter uma foto?",sug2:"Como pago?",sug3:"Como recebo o ebook?",sug4:"Quero vender um ebook"},
+sug1:"Como converter uma foto?",sug2:"Como pago?",sug3:"Como recebo o ebook?",sug4:"Quero vender um ebook",found:"Encontrei estes ebooks:",noCat:"Ainda não há ebooks nessa categoria."},
 en:{all:"All",buy:"Buy",pd:"public domain",none:"No ebooks found. Try another search or category.",cartEmpty:"Your cart is empty. Pick an ebook to start.",dup:"This ebook is already in your cart",added:"Added to cart",fillAll:"Fill in your name and email or WhatsApp",chooseSend:"Choose how to send the order, then pay by Pix",chooseFile:"Choose how to send, then share the ebook file in the chat",thanks:"Thank you! Send the Pix receipt through the same channel as your order.",copied:"Key copied",selCopy:"Select and copy the key",close:"Close",sample:"Read sample",prev:"Previous",next:"Next",page:"Page",sampleEnd:"End of sample. Buy to read the full book.",
 a_hi:"Hi! I can help with the photo converter, paying by Pix, how ebooks are delivered, and how to sell. What do you need?",
 a_conv:"The converter is free. Tap “Open converter”, pick your photos, the format (JPG, PNG or WebP), the quality and the max width, then tap Convert. It all happens on your device: your photo is not sent to any server. To shrink the file, use WebP or JPG at 60 to 80 quality.",
@@ -261,7 +264,7 @@ a_price:"Each ebook's price is shown on its card.",
 a_contact:"Contact the store on WhatsApp {wa} or Gmail {mail}.",
 chatNo:"I couldn't answer right now. Contact the store on WhatsApp {wa} or Gmail {mail}.",
 chatAI:"AI answer, may contain errors",convNone:"Choose at least one photo",convErr:"could not open this file",convDl:"Download",
-sug1:"How do I convert a photo?",sug2:"How do I pay?",sug3:"How do I receive the ebook?",sug4:"I want to sell an ebook",
+sug1:"How do I convert a photo?",sug2:"How do I pay?",sug3:"How do I receive the ebook?",sug4:"I want to sell an ebook",found:"I found these ebooks:",noCat:"There are no ebooks in that category yet.",
 stripT:"Free photo converter",stripP:"Switch between JPG, PNG and WebP and shrink file size. Your photo never leaves your device.",convOpen:"Open converter",convT:"Photo converter",convFiles:"Photos (up to 10)",convFmt:"Convert to",convQ:"Quality",convW:"Max width (px)",convOrig:"Original",convGo:"Convert",convPriv:"Conversion happens on your device. Your photo is not sent to any server.",chatBtn:"Assistant",chatT:"Store assistant",chatPh:"Type your question",chatSend:"Send",chatPriv:"Questions the assistant can't answer may be sent to an online AI service. Your photos never leave your device.",
 "c_Ficção":"Fiction","c_Negócios":"Business","c_Tecnologia":"Technology","c_Saúde":"Health","c_Educação":"Education","c_Clássicos":"Classics","c_Poesia":"Poetry","c_Religião":"Religion",
 sell:"Sell an ebook",cart:"Cart",h1:"Ebooks from those who write, for those who read.",hp:"Buy digital reading at a fair price, or publish your own ebook and get 90% of every sale by Pix, paid out by the store.",sellHero:"Publish my ebook",ph:"Search by title or author",oRel:"Featured",oAsc:"Lowest price",oDesc:"Highest price",cartT:"Your cart",total:"Total",keep:"Keep shopping",checkout:"Checkout",sellT:"Publish an ebook",lTitle:"Title",lAuthor:"Author",lCat:"Category",lPrice:"Price (R$)",lName:"Your name",lContact:"Your email or WhatsApp",lPix:"Your Pix key (to get paid)",sellNote:"When you send, you choose WhatsApp or Gmail. Send the ebook file (PDF or EPUB) in the same chat. You get 90% of each sale by Pix.",cancel:"Cancel",sellSubmit:"Publish",pixT:"Pay with Pix",pixIntro:"Fill in your details. Then send the order and pay by Pix.",lValue:"Amount",back:"Back",goPix:"Continue to Pix",lKey:"Pix key (email)",pixNote:"Send the order to the store (WhatsApp or Gmail), then pay by Pix.",copy:"Copy key",paid:"I've paid",sendT:"Send to the store",sendP:"Choose how to send. The message is ready to go.",foot:"Payments by Pix to the store's key. Confirmation is manual."},
@@ -277,7 +280,7 @@ a_price:"El precio de cada ebook aparece en su tarjeta.",
 a_contact:"Habla con la tienda por WhatsApp {wa} o por Gmail {mail}.",
 chatNo:"No pude responder ahora. Habla con la tienda por WhatsApp {wa} o por Gmail {mail}.",
 chatAI:"respuesta de la IA, puede contener errores",convNone:"Elige al menos una foto",convErr:"no se pudo abrir este archivo",convDl:"Descargar",
-sug1:"¿Cómo convierto una foto?",sug2:"¿Cómo pago?",sug3:"¿Cómo recibo el ebook?",sug4:"Quiero vender un ebook",
+sug1:"¿Cómo convierto una foto?",sug2:"¿Cómo pago?",sug3:"¿Cómo recibo el ebook?",sug4:"Quiero vender un ebook",found:"Encontré estos ebooks:",noCat:"Todavía no hay ebooks en esa categoría.",
 stripT:"Conversor de fotos gratis",stripP:"Cambia entre JPG, PNG y WebP y reduce el peso. La foto no sale de tu dispositivo.",convOpen:"Abrir conversor",convT:"Conversor de fotos",convFiles:"Fotos (hasta 10)",convFmt:"Convertir a",convQ:"Calidad",convW:"Ancho máximo (px)",convOrig:"Original",convGo:"Convertir",convPriv:"La conversión ocurre en tu dispositivo. La foto no se envía a ningún servidor.",chatBtn:"Asistente",chatT:"Asistente de la tienda",chatPh:"Escribe tu pregunta",chatSend:"Enviar",chatPriv:"Las preguntas que el asistente no sabe responder pueden enviarse a un servicio de IA en línea. Tus fotos nunca salen de tu dispositivo.",
 "c_Ficção":"Ficción","c_Negócios":"Negocios","c_Tecnologia":"Tecnología","c_Saúde":"Salud","c_Educação":"Educación","c_Clássicos":"Clásicos","c_Poesia":"Poesía","c_Religião":"Religión",
 sell:"Vender ebook",cart:"Carrito",h1:"Ebooks de quien escribe, para quien lee.",hp:"Compra lectura digital a buen precio o publica tu propio ebook y recibe el 90% de cada venta por Pix, pagado por la tienda.",sellHero:"Publicar mi ebook",ph:"Buscar por título o autor",oRel:"Destacados",oAsc:"Menor precio",oDesc:"Mayor precio",cartT:"Tu carrito",total:"Total",keep:"Seguir comprando",checkout:"Finalizar compra",sellT:"Publicar un ebook",lTitle:"Título",lAuthor:"Autor",lCat:"Categoría",lPrice:"Precio (R$)",lName:"Tu nombre",lContact:"Tu correo o WhatsApp",lPix:"Tu clave Pix (para recibir)",sellNote:"Al enviar, eliges WhatsApp o Gmail. Envía el archivo del ebook (PDF o EPUB) en la misma conversación. Recibes el 90% de cada venta por Pix.",cancel:"Cancelar",sellSubmit:"Publicar",pixT:"Pagar con Pix",pixIntro:"Completa tus datos. Luego envía el pedido y paga con Pix.",lValue:"Valor",back:"Volver",goPix:"Continuar al Pix",lKey:"Clave Pix (correo)",pixNote:"Envía el pedido a la tienda (WhatsApp o Gmail) y luego paga con Pix.",copy:"Copiar clave",paid:"Ya pagué",sendT:"Enviar a la tienda",sendP:"Elige cómo enviar. El mensaje ya va listo.",foot:"Pagos por Pix a la clave de la tienda. La confirmación es manual."}
@@ -305,6 +308,7 @@ function amDe(id){var v=localAm[id];if(v===undefined)v=amostras[id];return v}
 function amSave(){try{localStorage.setItem("estante_amostras",JSON.stringify(localAm))}catch(e){toast("Sem espaço no navegador.")}}
 function paginar(txt){var out=[],s=String(txt).replace(/\r/g,"").trim();while(s.length&&out.length<5){if(s.length<=1100){out.push(s);s="";break}var i=s.lastIndexOf("\n",1100);if(i<500)i=s.lastIndexOf(" ",1100);if(i<500)i=1100;out.push(s.slice(0,i).trim());s=s.slice(i).trim()}return out}
 var rd=null;
+var AI_URL="";
 var COLORS=["#0f766e","#b4453a","#3b4fa0","#7a4a9e","#8a6a12","#1f6b3a","#a1366b","#2b5f86"];
 var seed=[
  {id:1,t:"Como Escrever Sem Travar",a:"Marina Duarte",c:"Educação",p:24.9},
@@ -415,7 +419,7 @@ function admSave(){try{localStorage.setItem("estante_admin",JSON.stringify(adm))
 function novos(){return adm.filter(function(b){return seed.every(function(s){return s.id!==b.id})})}
 function sync(){books=seed.concat(novos())}
 function admList(){var l=novos();$("aList").innerHTML=l.length?l.map(function(b){return '<div class="row"><span>'+esc(b.t)+'</span><button data-ar="'+b.id+'" aria-label="Remover '+esc(b.t)+'">×</button></div>'}).join(""):'<p class="empty">Nenhum ebook novo ainda.</p>'}
-function openAdm(){admList();$("acBook").innerHTML=books.map(function(b){return '<option value="'+b.id+'">'+esc(b.t)+'</option>'}).join("");$("asBook").innerHTML=$("acBook").innerHTML;$("dAdmin").showModal()}
+function openAdm(){admList();$("acBook").innerHTML=books.map(function(b){return '<option value="'+b.id+'">'+esc(b.t)+'</option>'}).join("");$("asBook").innerHTML=$("acBook").innerHTML;$("aiUrl").value=aiUrl();$("dAdmin").showModal()}
 var SENHA="7";
 function pedeSenha(){$("pw").value="";$("dPass").showModal()}
 if(location.hash==="#admin")pedeSenha();
@@ -450,6 +454,7 @@ $("aDown").onclick=function(){
   src=src.replace(/var seed=\[[\s\S]*?\n\];/,function(){return "var seed=[\n"+lista+"\n];"});
   src=src.replace(/var capas=\{.*\};/,function(){return "var capas="+JSON.stringify(Object.assign({},capas,localCapas))+";"});
   src=src.replace(/var amostras=\{.*\};/,function(){return "var amostras="+JSON.stringify(Object.assign({},amostras,localAm))+";"});
+  src=src.replace(/var AI_URL="[^"\n]*";/,function(){return "var AI_URL="+JSON.stringify(aiUrl())+";"});
   var u=URL.createObjectURL(new Blob([src],{type:"text/html"}));
   var a=document.createElement("a");a.href=u;a.download="index.html";document.body.appendChild(a);a.click();a.remove();
   toast("Arquivo index.html baixado. Suba no Netlify.");
@@ -478,15 +483,54 @@ var SYS="Você é o assistente da loja de ebooks Estante. Responda curto e no me
 var INT=[["contact",["contato","whatsapp","gmail","email","falar com","contact","atendente","humano","human","telefone","hablar"]],["pix",["pix","pagar","pago","pagamento","pay","payment","comprovante","comprobante"]],["conv",["conver","convier","format","jpg","png","webp","foto","imagem","image","photo","comprim","reduz","resize","tamanho","peso","size","compress"]],["ent",["entreg","receb","recib","arquivo","archivo","baixar","download","deliver","receive"]],["sell",["vend","publicar","repasse","seller","sell","publish"]],["sample",["amostra","sample","muestra","paginas","pages"]],["lang",["idioma","language","ingles","english","espanol","spanish","portugues"]],["price",["preco","valor","quanto","custa","price","cost","precio","cuanto","how much"]]];
 function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
 function fill(s){return s.replace("{wa}","+"+WA.slice(0,2)+" "+WA.slice(2,4)+" "+WA.slice(4,9)+"-"+WA.slice(9)).replace("{mail}",DONO)}
-function local(q){var n=norm(q);if(/^(oi|ola|hello|hi|hola|bom dia|boa tarde|boa noite|buenas)\b/.test(n))return tx("a_hi");for(var i=0;i<INT.length;i++)for(var j=0;j<INT[i][1].length;j++)if(n.indexOf(INT[i][1][j])>-1)return fill(tx("a_"+INT[i][0]));return null}
+function local(q){var n=norm(q);if(/^(oi+|ola|opa|eae|e ai|hello|hi|hey|hola|bom dia|boa tarde|boa noite|buenas|buenos)\b/.test(n))return tx("a_hi");var cr=catalogo(q);if(cr)return cr;for(var i=0;i<INT.length;i++)for(var j=0;j<INT[i][1].length;j++)if(n.indexOf(INT[i][1][j])>-1)return fill(tx("a_"+INT[i][0]));return null}
 function addMsg(w,s){var d=document.createElement("div");d.className="m "+w;d.textContent=s;$("msgs").appendChild(d);$("msgs").scrollTop=1e6;return d}
 function ia(q,cb){var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},12000);
  fetch("https://text.pollinations.ai/openai",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"openai",messages:[{role:"system",content:SYS},{role:"user",content:q}]}),signal:ctl.signal})
  .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){clearTimeout(tm);var m=j&&j.choices&&j.choices[0]&&j.choices[0].message;cb(m&&m.content?String(m.content).slice(0,900):null)}).catch(function(){clearTimeout(tm);cb(null)})}
-function ask(q){q=q.trim();if(!q)return;addMsg("u",q);var r=local(q);if(r){addMsg("b",r);return}var w=addMsg("b","…");ia(q,function(a){w.textContent=a?a+"\n\n("+tx("chatAI")+")":fill(tx("chatNo"))})}
+var STOP="livro livros ebook ebooks quero queria tenho tem algum alguma sobre para voce voces como qual quais custa preco valor quanto the have any about book books which what that with libro libros tiene algun alguna cual cuanto precio".split(" ");
+var CATS=[["ficcao","fiction","ficcion","Ficção"],["negocio","business","Negócios"],["tecnolog","technolog","Tecnologia"],["saude","health","salud","Saúde"],["educa","Educação"],["classic","clasic","Clássicos"],["poesi","poetry","Poesia"],["religi","Religião"]];
+function catalogo(q){
+ var n=norm(q),hits=[];
+ CATS.forEach(function(c){for(var i=0;i<c.length-1;i++)if(n.indexOf(c[i])>-1){hits.push(c[c.length-1]);break}});
+ var toks=n.replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(function(w){return w.length>=4&&STOP.indexOf(w)<0});
+ var sc=books.map(function(b){var hay=norm(b.t+" "+b.a),s=0;toks.forEach(function(w){if(hay.indexOf(w)>-1)s++});if(hits.indexOf(b.c)>-1)s++;return {b:b,s:s}}).filter(function(x){return x.s>0}).sort(function(a,b){return b.s-a.s});
+ if(!sc.length)return hits.length?tx("noCat"):null;
+ var top=sc.slice(0,5).map(function(x){var b=x.b;return "• "+b.t+" — "+b.a+" — "+brl(b.p)+(amDe(b.id)?" ("+tx("sample")+")":"")});
+ return tx("found")+"\n"+top.join("\n")+(sc.length>5?"\n…":"")
+}
+var SP=null;
+function getSample(cb){if(!SP)SP=(window.claude&&window.claude.use)?window.claude.use("sample").then(function(s){return s||null},function(){return null}):Promise.resolve(null);SP.then(cb)}
+var turns=[];
+function rules(){return SYS+"\nContato da loja: WhatsApp "+fill("{wa}")+" e Gmail "+DONO+". Você é uma IA, nunca diga que é humano. Se o cliente pedir livros, recomende só os que estão no catálogo abaixo e cite título, autor e preço. Se uma categoria não tiver livros, diga isso.\nCatálogo atual (título | autor | categoria | preço):\n"+books.map(function(b){return b.t+" | "+b.a+" | "+b.c+" | R$ "+b.p.toFixed(2)+(amDe(b.id)?" | tem amostra de leitura":"")}).join("\n")}
+var localAI="";
+try{localAI=localStorage.getItem("estante_aiurl")||""}catch(e){}
+function aiUrl(){return (localAI||AI_URL||"").trim()}
+function catText(){return books.map(function(b){return b.t+" | "+b.a+" | "+b.c+" | R$ "+b.p.toFixed(2)+(amDe(b.id)?" | tem amostra de leitura":"")}).join("\n")}
+function viaWorker(cb){var u=aiUrl();if(!u){cb(null);return}
+ var ctl=new AbortController(),tm=setTimeout(function(){ctl.abort()},25000);
+ fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:turns,catalog:catText()}),signal:ctl.signal})
+ .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){clearTimeout(tm);cb(j&&j.text?String(j.text):null)}).catch(function(){clearTimeout(tm);cb(null)})}
+function legacy(q,w){ia(q,function(a){w.textContent=a?a+"\n\n("+tx("chatAI")+")":fill(tx("chatNo"))})}
+function ask(q){q=q.trim();if(!q)return;addMsg("u",q);
+ var r=local(q);
+ if(r){addMsg("b",r);return}
+ var w=addMsg("b","…");
+ turns.push({role:"user",content:q});turns=turns.slice(-8);while(turns.length&&turns[0].role!=="user")turns.shift();
+ function ok(t){turns.push({role:"assistant",content:t});w.textContent=t}
+ function fail(){if(turns.length&&turns[turns.length-1].role==="user")turns.pop();legacy(q,w)}
+ function tryWorker(){viaWorker(function(t){if(t)ok(t);else fail()})}
+ getSample(function(S){
+  if(!S){tryWorker();return}
+  var ctl=new AbortController(),got=false,tm=setTimeout(function(){if(!got)ctl.abort()},20000);
+  S([{role:"user",content:rules()}].concat(turns),{cache:false,modelTier:"quick",signal:ctl.signal,onText:function(o){got=true;w.textContent=o.text;$("msgs").scrollTop=1e6}})
+  .then(function(r){clearTimeout(tm);if(r.text)ok(r.text);else tryWorker()})
+  .catch(function(){clearTimeout(tm);tryWorker()})
+ })}
+$("aiSave").onclick=function(){var v=$("aiUrl").value.trim();if(v&&!/^https:\/\//.test(v)){toast("O endereço precisa começar com https://");return}localAI=v;try{localStorage.setItem("estante_aiurl",v)}catch(e){}toast(v?"Endereço salvo. Baixe o site atualizado para publicar.":"Endereço removido")};
 function sugs(){$("sug").innerHTML=["sug1","sug2","sug3","sug4"].map(function(k){return '<button class="chip" type="button" data-sug="'+k+'">'+esc(tx(k))+'</button>'}).join("")}
 $("sug").addEventListener("click",function(e){var k=e.target.dataset&&e.target.dataset.sug;if(k)ask(tx(k))});
-$("btnChat").onclick=function(){if(!$("msgs").children.length)addMsg("b",tx("a_hi"));sugs();$("dChat").showModal()};
+$("btnChat").onclick=function(){getSample(function(){});if(!$("msgs").children.length)addMsg("b",tx("a_hi"));sugs();$("dChat").showModal()};
 $("chatClose").onclick=function(){$("dChat").close()};
 $("fChat").addEventListener("submit",function(e){e.preventDefault();var v=$("cq").value;$("cq").value="";ask(v)});
 $("lang").onchange=function(){setLang(this.value)};
